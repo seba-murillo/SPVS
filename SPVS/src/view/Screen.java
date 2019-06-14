@@ -15,7 +15,7 @@ public class Screen{
 
 	public static boolean showGrid = true;
 
-	private static final JFrame frame = new JFrame("Conway's Game of Life");
+	private static final JFrame frame = new JFrame("SPVS");
 
 	private static JPanel	board;
 	private static JPanel	control;
