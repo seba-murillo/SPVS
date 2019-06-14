@@ -26,14 +26,15 @@ public class Screen{
 		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
 		//setUndecorated(true);
 		frame.setResizable(false);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		board = new GamePanel();
 		control = new ControlPanel();
 		frame.add(board);
 		frame.add(control);
 		frame.pack();
 		frame.setVisible(true);
-		Game.log("Screen created\n");
-		screenshot();		
+		//Game.log("Screen created\n");
+		//screenshot();		
 	}
 
 	public static void draw(){

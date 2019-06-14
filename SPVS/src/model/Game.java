@@ -2,7 +2,6 @@ package model;
 
 import view.Screen;
 
-
 public class Game{
 
 	public static final boolean verbose = false;

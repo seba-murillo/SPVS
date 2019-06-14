@@ -48,6 +48,7 @@ public class State{
 			cell_array[Game.grid_rows / 2][Game.grid_cols / 2 + 0] = new Cell(Game.ALIVE);
 			cell_array[Game.grid_rows / 2][Game.grid_cols / 2 + 1] = new Cell(Game.ALIVE);
 		}
+		//CREACION DE POSICIONES
 		if("exp_1".equals(pattern)){
 			int x = Game.grid_rows / 2;
 			int y = Game.grid_cols / 2;
