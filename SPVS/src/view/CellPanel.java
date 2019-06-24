@@ -19,9 +19,12 @@ public class CellPanel extends JPanel{
 	public static final Color	COLOR_ALIVE		= Color.RED;
 	public static final Color	COLOR_DEAD		= Color.BLUE;
 	public static final Color	COLOR_BORDER	= Color.BLACK;
+	public static final Color 	COLOR_ESP1		= Color.ORANGE;
+	public static final Color 	COLOR_ESP2		= Color.GREEN;
+	
 
-	public static final int	height	= 10;
-	public static final int	width	= 10;
+	public static final int	height	= 15;
+	public static final int	width	= 15;
 
 	private int x, y;
 

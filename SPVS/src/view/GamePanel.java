@@ -11,7 +11,7 @@ public class GamePanel extends JPanel{
 
 	public GamePanel(){
 		super();
-		Game.log("GamePanel created\n");
+		//Game.log("GamePanel created\n");
 		// cells
 		setLayout(new GridLayout(Game.grid_rows, Game.grid_cols));
 		//Cell[][] cell_array = Game.getCurrentState().getState();
