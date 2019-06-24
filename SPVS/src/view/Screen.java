@@ -34,7 +34,7 @@ public class Screen{
 		frame.pack();
 		frame.setVisible(true);
 		//Game.log("Screen created\n");
-		//screenshot();		
+		//screenshot();
 	}
 
 	public static void draw(){
