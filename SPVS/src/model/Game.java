@@ -9,13 +9,17 @@ import view.Screen;
 public class Game{
 
 	public static final boolean	verbose	= false;
-	public static final int		DEAD	= 0;
-	public static final int		ALIVE	= 1;
-	public static int			grid_rows;
-	public static int			grid_cols;
+	public static final boolean	debug	= true;
+	
+	public static int			MAX_X;
+	public static int			MAX_Y;
 	private static State		current;
 
-	public static void main(String[] args){		
+	public static void main(String[] args){
+		if(debug) {
+			new Game(15, 15);
+			return;
+		}
 		JTextField field_width = new JTextField(3);
 		JTextField field_height = new JTextField(3);	
 		JPanel input = new JPanel();
@@ -38,14 +42,16 @@ public class Game{
 		}
 		width = (width < 10) ? 10 : width;
 		height = (height < 10) ? 10 : height;
+		// Singleton -> private constructor
 		new Game(width, height);
 	}
 
-	private Game(int width, int height){
-		grid_cols = width;
-		grid_rows = height;
-		current = new State("exp_1");
+	//TODO CHANGE TO PRIVATE
+	public Game(int width, int height){
+		MAX_Y = width;
+		MAX_X = height;		
 		//current = new State("count");
+		current = new State("W1R3");
 		new Screen();
 		new Updater();
 	}

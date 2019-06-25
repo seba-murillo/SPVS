@@ -1,82 +1,55 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.TreeMap;
 
 
-public class State{
+public class State implements Cloneable{
 
 	public static final boolean				show_neighbours	= false;
 	private static TreeMap<Integer, State>	states			= new TreeMap<Integer, State>();
+	private static HashSet<Observer> observers = new HashSet<Observer>();
+	private static int ID = 0;
 
-	private static int state_count = 0;
+	private ArrayList<Entity> entities = new ArrayList<Entity>();	
+	private Entity[][] grid = new Entity[Game.MAX_X][Game.MAX_Y];
 
-	public Cell[][] cell_array = new Cell[Game.grid_rows][Game.grid_cols];
-
-	private int		ID;
-	private String	pattern	= "none";
-
-	public State(Cell[][] CELL){
-		this.ID = state_count++;
-		// copy cell array state
-		for(int x = 0;x < Game.grid_rows;x++){
-			for(int y = 0;y < Game.grid_cols;y++){
-				this.cell_array[x][y] = new Cell(CELL[x][y].getState());
-			}
-		}
-		config_neighbours();
-		save();
+	public State() {
 	}
 
 	public State(String pattern){
-		this.ID = state_count++;
-		this.pattern = pattern;
 		set(pattern);
-		fill_cell_array();
-		config_neighbours();
-		save();
 	}
 
 	private void set(String pattern){
-		if("pos_1".equals(pattern)){
-			cell_array[0][0] = new Cell(Game.ALIVE);
-			cell_array[1][0] = new Cell(Game.ALIVE);
-			cell_array[2][1] = new Cell(Game.ALIVE);
+		if("W1R3".equals(pattern)){ // 1 wolf, 3 rabbit
+			addEntity(new Rabbit(), 4, 4);
+			addEntity(new Rabbit(), 7, 2);
+			addEntity(new Rabbit(), 2, 7);
+			addEntity(new Wolf(), 8, 8);
 		}
-		if("row_1".equals(pattern)){
-			cell_array[Game.grid_rows / 2][Game.grid_cols / 2 - 1] = new Cell(Game.ALIVE);
-			cell_array[Game.grid_rows / 2][Game.grid_cols / 2 + 0] = new Cell(Game.ALIVE);
-			cell_array[Game.grid_rows / 2][Game.grid_cols / 2 + 1] = new Cell(Game.ALIVE);
-		}
-		//CREACION DE POSICIONES
-		if("exp_1".equals(pattern)){
-			int x = Game.grid_rows / 2;
-			int y = Game.grid_cols / 2;
-			cell_array[x + 0][y - 1] = new Cell(Game.ALIVE);
-			cell_array[x + 0][y + 0] = new Cell(Game.ALIVE);
-			cell_array[x + 0][y + 1] = new Cell(Game.ALIVE);
-			cell_array[x - 1][y + 0] = new Cell(Game.ALIVE);
-		}
-		if("tst_1".equals(pattern)){
-			cell_array[1][0] = new Cell(Game.ALIVE);
-			cell_array[1][1] = new Cell(Game.ALIVE);
-			cell_array[1][2] = new Cell(Game.ALIVE);
-		}
-		if("count".equals(pattern)){
-			cell_array[0][0] = new Cell(Game.ALIVE);
-		}
+	}
+	
+	public boolean addEntity(Entity entity, int x, int y) {
+		log("adding " + entity + " to pos (" + x + ", " + y + ")");
+		if(x < 0 || x >= Game.MAX_X) return false;
+		if(y < 0 || y >= Game.MAX_Y) return false;
+		if(grid[x][y] != null) return false;
+		grid[x][y] = entity;
+		entities.add(entity);
+		entity.setP(x, y);
+		return true;
 	}
 
 	public void print(){
 		log(String.format("> printing %s (%d states total)]:", this, states.size()));
-		for(int x = 0;x < Game.grid_rows;x++){
-			for(int y = 0;y < Game.grid_cols;y++){
-				int cell_state = cell_array[x][y].getState();
-				if(cell_state == 0) System.out.print("   ");
-				else
-					System.out.print(String.format("%3d", cell_state));
+		for(int x = 0;x < Game.MAX_X;x++){
+			for(int y = 0;y < Game.MAX_Y;y++){
+				if(grid[x][y] == null) continue;				
+				log(String.format("(%d, %d) - %s", x, y, grid[x][y].toString()));
 			}
-			Game.log("\n");
 		}
 	}
 
@@ -88,40 +61,46 @@ public class State{
 	}
 
 	public State tick(){
-		return new State(cell_array).evolve();
-	}
-
-	public State evolve(){
-		if("count".equals(pattern)){
-			cell_array[ID][ID].setNext(Game.ALIVE);
-			return this;
+		save();
+		ID++;
+		print();
+		for(Entity entity : entities) {			
+			entity.move();
 		}
-		for(int x = 0;x < Game.grid_rows;x++){
-			for(int y = 0;y < Game.grid_cols;y++){
-				cell_array[x][y].getNext();
-			}
-		}
-		for(int x = 0;x < Game.grid_rows;x++){
-			for(int y = 0;y < Game.grid_cols;y++){
-				cell_array[x][y].tick();
-			}
-		}
+		update_observers();
 		return this;
+	}
+	
+	public Entity[][] getSurroundings(int pos_x, int pos_y){
+		Entity[][] surrounding = new Entity[5][5];
+		for(int x = pos_x - 2; x < (pos_x + 2); x++) {
+			if(x < 0 || x > Game.MAX_X) continue;
+			for(int y = pos_y - 2;y < (pos_y + 2); y++) {
+				if(y < 0 || y > Game.MAX_Y) continue;
+				if(pos_x == x && pos_y == y) continue;
+				surrounding[x][y] = grid[x][y];
+			}
+		}
+		return surrounding;
 	}
 
 	private void save(){
-		if(Game.verbose) log(String.format("@save() - saved ID: %d", ID));
-		states.put(ID, this);
+		log(String.format("State ID: %d saved", ID));
+		try{
+			states.put(ID, (State) this.clone());// save copy of state
+		}
+		catch(CloneNotSupportedException e){
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
 	}
-
-	// TODO this will throw exception for invalid ID
-	public static State load(int ID){
-		if(Game.verbose) log(String.format("@load: loading ID: %d (%d states total)", ID, states.size()));
-		//Game.log(String.format("\tstate_count: %d\n", state_count));
-		if(ID < 0) ID = 0;
-		State result = states.get(ID);
-		state_count = ID + 1;
-		return result;
+	
+	public static State load(int state){
+		if(Game.verbose) log(String.format("@load: loading ID: %d (%d states total)", ID, states.size()));		
+		if(state < 0) state = 0;
+		ID = state;
+		log(String.format("State ID: %d loaded", ID));
+		return states.get(ID);
 	}
 
 	@Override
@@ -130,61 +109,40 @@ public class State{
 	}
 
 	public static State loadLast(){
-		return State.load(state_count - 2);
-	}
-
-	public Cell[][] getState(){
-		return cell_array;
-	}
-
-	public int getState(int x, int y){
-		return cell_array[x][y].getState();
-	}
-
-	private void fill_cell_array(){
-		// fill cell array
-		for(int x = 0;x < Game.grid_rows;x++){
-			for(int y = 0;y < Game.grid_cols;y++){
-				if(cell_array[x][y] == null) cell_array[x][y] = new Cell(Game.DEAD);
-			}
-		}
-	}
-
-	private void config_neighbours(){
-		// configure neighbours
-		for(int x = 0;x < Game.grid_rows;x++){
-			for(int y = 0;y < Game.grid_cols;y++){
-				int pos = -1;
-				Cell[] neighbours = new Cell[Cell.MAX_NEIGHBOURS];
-				for(int dx = x - 1;dx < x + 2;dx++){
-					for(int dy = y - 1;dy < y + 2;dy++){
-						pos++;
-						if(dx < 0 || dy < 0) continue;
-						if(dx >= Game.grid_rows || dy >= Game.grid_cols) continue;
-						neighbours[pos] = cell_array[dx][dy];
-					}
-				}
-				cell_array[x][y].setNeighbours(neighbours);
-
-				if(show_neighbours){
-					int count = 0;
-					log(String.format("@setNeighbours of Cell[%d][%d]:", x, y));
-					for(int i = 0;i < Cell.MAX_NEIGHBOURS;i++){
-						if(neighbours[i] == null){
-							log(String.format("neighbours[%d] = NULL", i));
-						}
-						else{
-							log(String.format("neighbours[%d] = OK", i));
-							count++;
-						}
-					}
-					log(String.format("total: %d neighbours\n\n", count - 1));
-				}
-			}
-		}
+		return State.load(ID - 1);
 	}
 
 	public static void log(Object message){
 		System.out.println(message.toString());
 	}
+	
+	private void update_observers() {
+		for(Observer o : observers)
+			o.onUpdate(grid);
+	}
+	
+	public void register_observer(Observer obj) {
+		observers.add(obj);
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

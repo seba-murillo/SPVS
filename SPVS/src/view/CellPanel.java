@@ -3,10 +3,13 @@ package view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Random;
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
-import model.Game;
 
 
 @SuppressWarnings("serial")
@@ -21,28 +24,34 @@ public class CellPanel extends JPanel{
 	public static final Color	COLOR_BORDER	= Color.BLACK;
 	public static final Color 	COLOR_ESP1		= Color.ORANGE;
 	public static final Color 	COLOR_ESP2		= Color.GREEN;
-	
-
 	public static final int	height	= 15;
 	public static final int	width	= 15;
+	
 
-	private int x, y;
+	private BufferedImage img;
 
-	public CellPanel(int x, int y){
+	public CellPanel(){
 		super();
-		this.x = x;
-		this.y = y;
 		if(show_border) this.setBorder(BorderFactory.createLineBorder(COLOR_BORDER));
 		setBackground(COLOR_BORDER);
-	}
-
-	@Override
-	public String toString(){
-		return String.format("CellPanel @ [%d, %d] - state: %d", x, y, getState());
+		try{
+			img = ImageIO.read(new File("img/null.png"));
+		}
+		catch(IOException e){
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public static void log(Object message){
 		System.out.print(message.toString());
+	}
+	
+	public void setIcon(BufferedImage icon) {
+		if(icon != null) {
+			log("panel changed");
+		}
+		img = icon;
 	}
 
 	@Override
@@ -53,6 +62,8 @@ public class CellPanel extends JPanel{
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
+		g.drawImage(img, 0, 0, width, height, null, null);
+		/*
 		int state = getState();
 		if(state == Game.ALIVE) g.setColor(COLOR_ALIVE);
 		else if(state == Game.DEAD) g.setColor(COLOR_DEAD);
@@ -60,10 +71,8 @@ public class CellPanel extends JPanel{
 			g.setColor(Color.GREEN);
 		g.fillRect(0, 0, width, height);
 		if(show_painting) log(String.format("@paintComponent() %s @ (%d, %d)\n", this, getX(), getY()));
-	}
-
-	private int getState(){
-		return Game.getCurrentState().getState(x, y);
+		*/
+		
 	}
 
 	@SuppressWarnings("unused")

@@ -15,7 +15,7 @@ public class Screen{
 
 	public static boolean showGrid = true;
 
-	private static final JFrame frame = new JFrame("SPVS");
+	private static final JFrame frame = new JFrame("Simulador de Vida Salvaje");
 
 	private static JPanel	board;
 	private static JPanel	control;

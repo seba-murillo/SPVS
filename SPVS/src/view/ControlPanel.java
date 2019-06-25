@@ -60,11 +60,9 @@ public class ControlPanel extends JPanel implements ActionListener{
 		}
 		else if(e.getSource() == btn_prev){
 			Game.loadLastState();
-			Screen.draw();
 		}
 		else if(e.getSource() == btn_next){
 			Game.nextState();
-			Screen.draw();
 		}
 	}
 }
