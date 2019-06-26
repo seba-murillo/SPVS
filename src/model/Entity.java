@@ -15,6 +15,7 @@ public abstract class Entity{
 	protected int food = 10;
 	protected int move_rest_needed;
 	protected int move_cooldown;
+	protected boolean alive = true;
 	
 	public abstract void move();
 	
@@ -30,7 +31,10 @@ public abstract class Entity{
 		return food;
 	}
 	
-	public abstract void die();
+	public void die() {
+		alive = false;
+		setIcon(Entity.FILE_DEAD);
+	}
 	
 	public void setX(int x){
 		this.X = x;

@@ -15,15 +15,23 @@ public class Plant extends Entity{
 		setIcon(new File("img/plant.png"));
 	}
 	
+	// plant respawns after 8 days
 	@Override
 	public void move(){
-		return;
+		if(alive) return;
+		if(move_rest_needed > 0) {
+			move_rest_needed--;
+			return;
+		}
+		setIcon(new File("img/plant.png"));
+		alive = true;
 	}	
 	
 
 	@Override
 	public void die(){
-		food = -1;
-		setIcon(Entity.FILE_DEAD);
+		alive = false;
+		icon = null;
+		move_rest_needed = 8; // turns for respawn
 	}
 }
