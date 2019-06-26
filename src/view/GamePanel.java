@@ -1,6 +1,5 @@
 package view;
 
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import javax.swing.JPanel;
@@ -12,8 +11,6 @@ import model.Observer;
 @SuppressWarnings("serial")
 public class GamePanel extends JPanel implements Observer{
 	
-	public static final int	height	= 15;
-	public static final int	width	= 15;
 	CellPanel[][] panels = new CellPanel[Game.MAX_X][Game.MAX_Y];
 	
 	public GamePanel(){

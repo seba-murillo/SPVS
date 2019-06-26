@@ -18,5 +18,4 @@ class Test_A{
 		assert(state.addEntity(new Rabbit(), 3, 8));
 		assert(state.addEntity(new Wolf(), 7, 8));
 	}
-
 }

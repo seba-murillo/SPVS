@@ -39,8 +39,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 		btn_play.setBackground(Color.GREEN);
 		btn_prev.addActionListener(this);
 		btn_play.addActionListener(this);
-		btn_next.addActionListener(this);
-		
+		btn_next.addActionListener(this);		
 	}
 
 	@Override

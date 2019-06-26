@@ -71,7 +71,8 @@ public abstract class Entity{
 			icon = ImageIO.read(file);
 		}
 		catch(IOException e){
-			log("Failed creating " + this);
+			System.err.println("Failed icon for creating " + this);
+			System.err.println("PATH: " + file.getAbsolutePath());
 			e.printStackTrace();
 		}
 	}

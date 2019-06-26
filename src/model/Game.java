@@ -17,7 +17,7 @@ public class Game{
 
 	public static void main(String[] args){
 		if(debug) {
-			new Game(15, 15);
+			new Game(30, 30);
 			return;
 		}
 		JTextField field_width = new JTextField(3);
@@ -49,9 +49,10 @@ public class Game{
 	//TODO CHANGE TO PRIVATE
 	public Game(int width, int height){
 		MAX_Y = width;
-		MAX_X = height;		
-		//current = new State("count");
-		current = new State("W1R3");
+		MAX_X = height;
+		if(debug) current = new State("full_test");
+		else
+			current = new State();
 		new Screen();
 		new Updater();
 	}
@@ -75,7 +76,7 @@ public class Game{
 	}
 
 	public static void log(Object message){
-		System.out.print(message.toString());
+		System.out.println(message.toString());
 	}
 
 	public static void nextState(){
