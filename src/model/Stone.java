@@ -13,6 +13,7 @@ public class Stone extends Entity{
 	public Stone(String name) {
 		setName(name);
 		setIcon(new File("img/stone.png"));
+		alive = false;
 	}
 	
 	@Override
@@ -23,7 +24,5 @@ public class Stone extends Entity{
 
 	@Override
 	public void die(){
-		food = -1;
-		setIcon(Entity.FILE_DEAD);
 	}
 }

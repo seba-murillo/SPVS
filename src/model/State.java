@@ -215,7 +215,7 @@ public class State implements Cloneable{
 		System.out.println(message.toString());
 	}
 	
-	private void update_observers() {
+	public void update_observers() {
 		for(Observer o : observers)
 			o.onUpdate(grid);
 	}

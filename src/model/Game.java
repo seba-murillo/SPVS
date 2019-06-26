@@ -54,6 +54,7 @@ public class Game{
 		else
 			current = new State();
 		new Screen();
+		current.update_observers();
 		new Updater();
 	}
 

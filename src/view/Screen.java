@@ -8,7 +8,6 @@ import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import model.Game;
 
 
 public class Screen{
@@ -38,19 +37,17 @@ public class Screen{
 	}
 
 	public static void draw(){
-		if(Game.verbose) System.out.println("frame.repaint()");
-		frame.repaint();
-		
+		frame.repaint();		
 	}
 
 	@SuppressWarnings("unused")
 	private static void error(Object message){
-		Game.error(message.toString());
+		System.err.println(message.toString());
 	}
 
 	@SuppressWarnings("unused")
 	private static void log(Object message){
-		Game.log(message.toString());
+		System.out.println(message.toString());
 	}
 
 	public static void screenshot(){
@@ -67,18 +64,18 @@ public class Screen{
 			e.printStackTrace();
 		}
 	}
-
-//	public static void screenshot() {
-//		LocalTime time = LocalTime.now();
-//		String filename = String.format("screenshot_v2_%d-%d-%d.png", time.getHour(), time.getMinute(), time.getSecond());
-//		try{
-//			Robot robot = new Robot();
-//			BufferedImage Image = robot.createScreenCapture(frame.getBounds());
-//			ImageIO.write(Image, "png", new File(filename));
-//		}
-//		catch(Exception e) {
-//			e.printStackTrace();
-//		}
-//
-//	}
+	/*
+	public static void screenshot() {
+		LocalTime time = LocalTime.now();
+		String filename = String.format("screenshot_v2_%d-%d-%d.png", time.getHour(), time.getMinute(), time.getSecond());
+		try{
+			Robot robot = new Robot();
+			BufferedImage Image = robot.createScreenCapture(frame.getBounds());
+			ImageIO.write(Image, "png", new File(filename));
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	*/
 }

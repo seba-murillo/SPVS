@@ -16,6 +16,7 @@ public class Rabbit extends Entity{
 	
 	@Override
 	public void move(){
+		if(!alive) return;
 		move_cooldown -= 1;
 		if(move_cooldown > 0) return;
 		// move

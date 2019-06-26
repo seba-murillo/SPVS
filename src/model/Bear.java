@@ -17,10 +17,11 @@ public class Bear extends Entity{
 	
 	@Override
 	public void move(){
+		if(!alive) return;
 		move_cooldown -= 1;
 		if(move_cooldown > 0) return;
 		// move
-		move_cooldown += move_rest_needed;		
+		move_cooldown += move_rest_needed;
 	}	
 	
 

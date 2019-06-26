@@ -13,6 +13,7 @@ public class Tree extends Entity{
 	public Tree(String name) {
 		setName(name);
 		setIcon(new File("img/tree.png"));
+		alive = true;
 	}
 	
 	@Override
@@ -23,7 +24,5 @@ public class Tree extends Entity{
 
 	@Override
 	public void die(){
-		food = -1;
-		setIcon(Entity.FILE_DEAD);
 	}
 }
