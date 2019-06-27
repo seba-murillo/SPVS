@@ -12,7 +12,7 @@ class FullSysTest{
 
 	@Test
 	void test(){
-		new Game(20, 20);
+		new Game(20, 20, null);
 		State state = Game.getCurrentState();
 		assert(state.addEntity(new Rabbit(), 5, 5));
 		assert(state.addEntity(new Rabbit(), 0, 3));

@@ -29,7 +29,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 	
 	public ControlPanel(Timeout reloj){
 		super();
-		this.reloj=reloj;
+		this.reloj = reloj;
 		//Game.log("ControlPanel created\n");
 		setLayout(new FlowLayout());
 	    if(Updater.start_ON == false) btn_play.setText(STR_PLAY);
@@ -50,7 +50,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 				btn_play.setBackground(Color.RED);
 				Updater.play();
 				cont++;
-				if(cont==1)reloj.start();				
+				if(cont == 1 && reloj != null)reloj.start();				
 			}
 			else if(STR_PAUSE.equals(btn_play.getText())){
 				btn_play.setText(STR_PLAY);
