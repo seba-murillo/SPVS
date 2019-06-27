@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="Ant-Test" default="main" basedir="."> 
+<project name="SPVS" default="spvs" basedir="."> 
 	<presetdef name="javac">	 
 		<javac includeantruntime="false" />  
 </presetdef>	 
@@ -53,11 +53,12 @@
 	<target name="jar" depends="compile">
 		<jar destfile="${dist.dir}\SPVS.jar" basedir="${build.dir}">
 			<manifest>
-				<attribute name="Main-Class" value="com.example.java.ant.task.Main"/>
+				<!--<attribute name="Main-Class" value="com.example.java.ant.task.Main"/> -->
+				<attribute name="Main-Class" value="model.Game"/>
 			</manifest>
 		</jar>
 	</target> 
-	<target name="main" depends="compile, jar, docs">	 
+	<target name="spvs" depends="compile, jar, docs">	 
 		<description>Main target</description>	
 	</target>
 </project>
