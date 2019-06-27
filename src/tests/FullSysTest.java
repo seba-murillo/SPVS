@@ -1,4 +1,4 @@
-/*
+
 package tests;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,4 +20,3 @@ class FullSysTest{
 		assert(state.addEntity(new Wolf(), 7, 8));
 	}
 }
-*/
