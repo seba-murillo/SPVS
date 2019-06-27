@@ -1,3 +1,4 @@
+/*
 package tests;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -7,7 +8,7 @@ import model.Game;
 import model.State;
 
 
-class Test_A{
+class FullSysTest{
 
 	@Test
 	void test(){
@@ -19,3 +20,4 @@ class Test_A{
 		assert(state.addEntity(new Wolf(), 7, 8));
 	}
 }
+*/
