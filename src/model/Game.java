@@ -4,6 +4,7 @@ import javax.swing.BoxLayout;
 import javax.swing.*;
 import javax.swing.JOptionPane;
 import view.Screen;
+import view.Timeout;
 
 
 public class Game{
@@ -60,17 +61,19 @@ public class Game{
 		while(segundos < 0 || segundos > 59) {
 			segundos =Integer.parseInt(JOptionPane.showInputDialog("Ingrese segundos mayores a 0 y menores a 59: "));}
 		
-		new Game(ancho, alto);
+		Timeout reloj = new Timeout(minutos, segundos);
+		new Game(ancho, alto, reloj);
+		
 	}
 
 	//TODO CHANGE TO PRIVATE
-	public Game(int width, int height){
+	public Game(int width, int height, Timeout reloj){
 		MAX_Y = width;
 		MAX_X = height;
 		if(debug) current = new State("full_test");
 		else
 			current = new State();
-		new Screen();
+		new Screen(reloj);
 		current.update_observers();
 		new Updater();
 	}

@@ -14,7 +14,10 @@ import model.Updater;
 
 @SuppressWarnings("serial")
 public class ControlPanel extends JPanel implements ActionListener{
-
+	
+	Timeout reloj;
+	int cont=0;
+	
 	private static final String	STR_PLAY	= "▶";
 	private static final String	STR_PAUSE	= "▮▮";
 	private static final String	STR_PREV	= "⧏";
@@ -24,8 +27,9 @@ public class ControlPanel extends JPanel implements ActionListener{
 	private JButton	btn_prev	= new JButton(STR_PREV);
 	private JButton	btn_next	= new JButton(STR_NEXT);
 	
-	public ControlPanel(){
+	public ControlPanel(Timeout reloj){
 		super();
+		this.reloj=reloj;
 		//Game.log("ControlPanel created\n");
 		setLayout(new FlowLayout());
 	    if(Updater.start_ON == false) btn_play.setText(STR_PLAY);
@@ -45,6 +49,8 @@ public class ControlPanel extends JPanel implements ActionListener{
 				btn_play.setText(STR_PAUSE);
 				btn_play.setBackground(Color.RED);
 				Updater.play();
+				cont++;
+				if(cont==1)reloj.start();				
 			}
 			else if(STR_PAUSE.equals(btn_play.getText())){
 				btn_play.setText(STR_PLAY);

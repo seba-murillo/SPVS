@@ -132,7 +132,7 @@ public class State implements Cloneable{
 	}
 	
 	public boolean addEntity(Entity entity, int x, int y) {
-		log("adding " + entity + " to pos (" + x + ", " + y + ")");
+		//log("adding " + entity + " to pos (" + x + ", " + y + ")");
 		if(x < 0 || x >= Game.MAX_X) return false;
 		if(y < 0 || y >= Game.MAX_Y) return false;
 		if(grid[x][y] != null) return false;
@@ -143,7 +143,7 @@ public class State implements Cloneable{
 	}
 
 	public void print(){
-		log(String.format("> printing %s (%d states total)]:", this, states.size()));
+		//log(String.format("> printing %s (%d states total)]:", this, states.size()));
 		for(int x = 0;x < Game.MAX_X;x++){
 			for(int y = 0;y < Game.MAX_Y;y++){
 				if(grid[x][y] == null) continue;				
@@ -153,7 +153,7 @@ public class State implements Cloneable{
 	}
 
 	public static void printList(){
-		log("@printList() - State:");
+		//log("@printList() - State:");
 		for(Map.Entry<Integer, State> entry : states.entrySet()){
 			entry.getValue().print();
 		}
@@ -184,7 +184,7 @@ public class State implements Cloneable{
 	}
 
 	private void save(){
-		log(String.format("State ID: %d saved", ID));
+		//log(String.format("State ID: %d saved", ID));
 		try{
 			states.put(ID, (State) this.clone());// save copy of state
 		}

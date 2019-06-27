@@ -19,7 +19,7 @@ public class Screen{
 	private static JPanel	board;
 	private static JPanel	control;
 
-	public Screen(){
+	/*public Screen(Timeout reloj){
 		//init
 		frame.setLocationRelativeTo(null); // center
 		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
@@ -27,7 +27,24 @@ public class Screen{
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		board = new GamePanel();
-		control = new ControlPanel();
+		control = new ControlPanel(reloj);
+		frame.add(board);
+		frame.add(control);
+		frame.pack();
+		frame.setVisible(true);
+		//Game.log("Screen created\n");
+		//screenshot();
+	}*/
+
+	public Screen(Timeout reloj) {
+		// TODO Auto-generated constructor stub
+		frame.setLocationRelativeTo(null); // center
+		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
+		//setUndecorated(true);
+		frame.setResizable(false);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		board = new GamePanel();
+		control = new ControlPanel(reloj);
 		frame.add(board);
 		frame.add(control);
 		frame.pack();
