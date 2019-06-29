@@ -8,19 +8,25 @@ import java.util.TreeMap;
 
 public class State implements Cloneable{
 
-	public static final boolean				show_neighbours	= false;
-	private static TreeMap<Integer, State>	states			= new TreeMap<Integer, State>();
-	private static HashSet<Observer> observers = new HashSet<Observer>();
-	private static int ID = 0;
+	public static final boolean	show_neighbours		= false;
+	public static final int		MAX_MOVE_ATTEMPT	= 10;
 
-	private ArrayList<Entity> entities = new ArrayList<Entity>();	
-	private Entity[][] grid = new Entity[Game.MAX_X][Game.MAX_Y];
+	private static State current = null;
 
-	public State() {
+	private static TreeMap<Integer, State>	states		= new TreeMap<Integer, State>();
+	private static HashSet<Observer>		observers	= new HashSet<Observer>();
+	private static int						ID			= 0;
+
+	private ArrayList<Entity>	entities	= new ArrayList<Entity>();
+	private Entity[][]			grid		= new Entity[Game.MAX_X][Game.MAX_Y];
+
+	public State(){
+		current = this;
 	}
 
 	public State(String pattern){
 		set(pattern);
+		current = this;
 	}
 
 	private void set(String pattern){
@@ -130,23 +136,90 @@ public class State implements Cloneable{
 			addEntity(new Bear(), 19, 22);
 		}
 	}
-	
-	public boolean addEntity(Entity entity, int x, int y) {
+
+	public boolean addEntity(Entity entity, int x, int y){
 		//log("adding " + entity + " to pos (" + x + ", " + y + ")");
 		if(x < 0 || x >= Game.MAX_X) return false;
 		if(y < 0 || y >= Game.MAX_Y) return false;
-		if(grid[x][y] != null) return false;
-		grid[x][y] = entity;
-		entities.add(entity);
-		entity.setP(x, y);
+		if(!setEntityPos(entity, x, y)) return false;
+		entities.add(entity);		
 		return true;
+	}
+
+	private boolean setEntityPos(Entity entity, int x, int y){
+		if(grid[x][y] != null){
+			if(grid[x][y] == entity) return true;
+			log("@State - cannot place [" + entity + "] at (" + x + ", " + y + "): space already in use");
+			return false;
+		}
+		grid[x][y] = entity;
+		entity.setP(x, y);
+		update_observers();
+		return true;
+	}
+
+	public int[] getClosestEntityType(int type, int x, int y){
+		int pos[] = {-1, -1};
+		double dist;
+		double min_dist = 999;
+		for(Entity ent : entities){
+			if(ent.getType() != type) continue;
+			dist = Math.sqrt(Math.pow(ent.getX(), 2) + Math.pow(ent.getY(), 2));
+			if(dist < min_dist){
+				min_dist = dist;
+				pos[0] = ent.getX();
+				pos[1] = ent.getY();
+			}
+		}
+		return pos;
+	}
+
+	/*       -
+	 * 	   -[1] [2] [3]+
+	 * 		[8] [0] [4]
+	 * 		[5] [6] [7]
+	 *       +
+	 */
+	private boolean setEntityPos(Entity entity, int dir){
+		switch(dir){
+			case 0:{
+				return true;
+			}
+			case 1:{
+				return (setEntityPos(entity, entity.getX() - 1, entity.getY() - 1));
+			}
+			case 2:{
+				return (setEntityPos(entity, entity.getX() - 0, entity.getY() - 1));
+			}
+			case 3:{
+				return (setEntityPos(entity, entity.getX() + 1, entity.getY() - 1));
+			}
+			case 4:{
+				return (setEntityPos(entity, entity.getX() + 1, entity.getY() - 0));
+			}
+			case 5:{
+				return (setEntityPos(entity, entity.getX() - 1, entity.getY() + 1));
+			}
+			case 6:{
+				return (setEntityPos(entity, entity.getX() + 0, entity.getY() + 1));
+			}
+			case 7:{
+				return (setEntityPos(entity, entity.getX() + 1, entity.getY() + 1));
+			}
+			case 8:{
+				return (setEntityPos(entity, entity.getX() - 1, entity.getY() - 0));
+			}
+			default:{
+				return false;
+			}
+		}
 	}
 
 	public void print(){
 		//log(String.format("> printing %s (%d states total)]:", this, states.size()));
 		for(int x = 0;x < Game.MAX_X;x++){
 			for(int y = 0;y < Game.MAX_Y;y++){
-				if(grid[x][y] == null) continue;				
+				if(grid[x][y] == null) continue;
 				log(String.format("(%d, %d) - %s", x, y, grid[x][y].toString()));
 			}
 		}
@@ -162,19 +235,20 @@ public class State implements Cloneable{
 	public State tick(){
 		save();
 		ID++;
-		//print();
-		for(Entity entity : entities) {			
-			entity.move();
+		for(Entity entity : entities){
+			inner:for(int attempt = 0;attempt < MAX_MOVE_ATTEMPT;attempt++){
+				if(setEntityPos(entity, entity.move())) break inner; // aka continue outer
+			}
 		}
 		update_observers();
 		return this;
 	}
-	
+
 	public Entity[][] getSurroundings(int pos_x, int pos_y){
 		Entity[][] surrounding = new Entity[5][5];
-		for(int x = pos_x - 2; x < (pos_x + 2); x++) {
+		for(int x = pos_x - 2;x < (pos_x + 2);x++){
 			if(x < 0 || x > Game.MAX_X) continue;
-			for(int y = pos_y - 2;y < (pos_y + 2); y++) {
+			for(int y = pos_y - 2;y < (pos_y + 2);y++){
 				if(y < 0 || y > Game.MAX_Y) continue;
 				if(pos_x == x && pos_y == y) continue;
 				surrounding[x][y] = grid[x][y];
@@ -189,17 +263,21 @@ public class State implements Cloneable{
 			states.put(ID, (State) this.clone());// save copy of state
 		}
 		catch(CloneNotSupportedException e){
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
+			log("ERROR @ State.save() : failed clonning");
+		}
 	}
-	
+
 	public static State load(int state){
-		if(Game.verbose) log(String.format("@load: loading ID: %d (%d states total)", ID, states.size()));		
+		if(Game.verbose) log(String.format("@load: loading ID: %d (%d states total)", ID, states.size()));
 		if(state < 0) state = 0;
 		ID = state;
-		log(String.format("State ID: %d loaded", ID));
+		//log(String.format("State ID: %d loaded", ID));
 		return states.get(ID);
+	}
+
+	public static State getCurrent(){
+		//log("current = " + current + "\n");
+		return current;
 	}
 
 	@Override
@@ -207,41 +285,35 @@ public class State implements Cloneable{
 		return String.format("State [%d]", ID);
 	}
 
-	public static State loadLast(){
-		return State.load(ID - 1);
-	}
-
 	public static void log(Object message){
 		System.out.println(message.toString());
 	}
-	
-	public void update_observers() {
+
+	public void update_observers(){
 		for(Observer o : observers)
 			o.onUpdate(grid);
 	}
-	
-	public void register_observer(Observer obj) {
+
+	public void register_observer(Observer obj){
 		observers.add(obj);
+		update_observers();
+	}
+
+	public static void loadLast(){
+		current = State.load(ID - 1);
+		log("current state is now " + current);
+	}
+
+	public static void loadState(int ID){
+		current = State.load(ID);
+	}
+
+	public static void nextState(){
+		current = current.tick();
+		log("current state is now " + current);
+	}
+
+	public static void setCurrent(State st){
+		current = st;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -38,7 +38,7 @@ public class Updater implements ActionListener{
 	}
 
 	private void update(){
-		Game.nextState();
+		State.getCurrent().tick();
 		Screen.draw();
 		update_timer.start();
 	}

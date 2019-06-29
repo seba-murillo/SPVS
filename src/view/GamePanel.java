@@ -4,40 +4,41 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 import javax.swing.JPanel;
 import model.Entity;
-import model.Game;
 import model.Observer;
+import model.State;
 
 
 @SuppressWarnings("serial")
 public class GamePanel extends JPanel implements Observer{
-	
-	CellPanel[][] panels = new CellPanel[Game.MAX_X][Game.MAX_Y];
-	
-	public GamePanel(){
+
+	CellPanel[][] panels;
+
+	public GamePanel(int width, int height){
 		super();
-		Game.getCurrentState().register_observer(this);
-		for(int x = 0;x < Game.MAX_X;x++){
-			for(int y = 0;y < Game.MAX_Y;y++){
+		panels = new CellPanel[width][height];
+		
+		for(int x = 0;x < width;x++){
+			for(int y = 0;y < height;y++){
 				panels[x][y] = new CellPanel();
 				this.add(panels[x][y]);
 			}
-		}
-		Game.log("GamePanel created\n");
-		// cells
-		setLayout(new GridLayout(Game.MAX_X, Game.MAX_Y));
+		}		
+		setLayout(new GridLayout(width, height));
+		State.getCurrent().register_observer(this);
+		log("GamePanel created\n");
 	}
-	
+
 	/*
 	@Override
 	public Dimension getPreferredSize(){
 		return new Dimension(Game.MAX_X * width, Game.MAX_Y * height);
 	}
 	*/
-	
+
 	public static void log(Object message){
 		System.out.print(message.toString());
 	}
-	
+
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);

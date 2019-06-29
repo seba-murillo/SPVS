@@ -11,13 +11,13 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class CellPanel extends JPanel{
 
-	public static final boolean show_border = true;
-	public static final boolean	show_events		= false;
-	public static final boolean show_painting = false;
-	public static final Color	COLOR_BACKGROUND		= new Color(15, 90, 0);
-	public static final Color	COLOR_BORDER	= Color.BLACK;
-	public static final int	height	= 30;
-	public static final int	width	= 30;	
+	public static final boolean	show_border			= true;
+	public static final boolean	show_events			= false;
+	public static final boolean	show_painting		= false;
+	public static final Color	COLOR_BACKGROUND	= new Color(15, 90, 0);
+	public static final Color	COLOR_BORDER		= Color.BLACK;
+	public static final int		height				= 30;
+	public static final int		width				= 30;
 
 	private BufferedImage img;
 
@@ -31,8 +31,8 @@ public class CellPanel extends JPanel{
 	public static void log(Object message){
 		System.out.print(message.toString());
 	}
-	
-	public void setIcon(BufferedImage icon) {
+
+	public void setIcon(BufferedImage icon){
 		img = icon;
 	}
 

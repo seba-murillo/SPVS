@@ -36,15 +36,15 @@ public class Screen{
 		//screenshot();
 	}*/
 
-	public Screen(Timeout reloj) {
+	public Screen(int width, int height){
 		// TODO Auto-generated constructor stub
 		frame.setLocationRelativeTo(null); // center
 		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
 		//setUndecorated(true);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		board = new GamePanel();
-		control = new ControlPanel(reloj);
+		board = new GamePanel(width, height);
+		control = new ControlPanel();
 		frame.add(board);
 		frame.add(control);
 		frame.pack();
@@ -54,7 +54,7 @@ public class Screen{
 	}
 
 	public static void draw(){
-		frame.repaint();		
+		frame.repaint();
 	}
 
 	@SuppressWarnings("unused")
