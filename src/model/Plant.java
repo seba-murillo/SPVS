@@ -14,6 +14,7 @@ public class Plant extends Entity{
 	public Plant(String name){
 		setName(name);
 		setIcon(new File("img/plant.png"));
+		type = Entity.TYPE_PLANT;
 	}
 
 	// plant respawns after 8 days
@@ -30,9 +31,10 @@ public class Plant extends Entity{
 	}
 
 	@Override
-	public void die(){
+	public void kill(String reason){
+		log(this.toString() + " was eaten by " + reason);
 		alive = false;
-		icon = null;
-		move_rest_needed = 8; // turns for respawn
+		setIcon(new File("img/plant_dead.png"));
+		move_rest_needed = 15; // turns for respawn
 	}
 }

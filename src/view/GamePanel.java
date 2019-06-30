@@ -16,15 +16,15 @@ public class GamePanel extends JPanel implements Observer{
 	public GamePanel(int width, int height){
 		super();
 		panels = new CellPanel[width][height];
-		
+
 		for(int x = 0;x < width;x++){
 			for(int y = 0;y < height;y++){
 				panels[x][y] = new CellPanel();
 				this.add(panels[x][y]);
 			}
-		}		
+		}
 		setLayout(new GridLayout(width, height));
-		State.getCurrent().register_observer(this);
+		State.register_observer(this);
 		log("GamePanel created\n");
 	}
 
@@ -48,7 +48,10 @@ public class GamePanel extends JPanel implements Observer{
 	public void onUpdate(Entity[][] state){
 		for(int x = 0;x < panels.length;x++){
 			for(int y = 0;y < panels[0].length;y++){
-				if(state[x][y] == null) continue;
+				if(state[x][y] == null){
+					panels[x][y].setIcon(null);
+					continue;
+				}
 				panels[x][y].setIcon(state[x][y].getIcon());
 			}
 		}

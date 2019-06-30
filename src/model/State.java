@@ -21,138 +21,29 @@ public class State implements Cloneable{
 	private Entity[][]			grid		= new Entity[Game.MAX_X][Game.MAX_Y];
 
 	public State(){
-		current = this;
-	}
-
-	public State(String pattern){
-		set(pattern);
-		current = this;
-	}
-
-	private void set(String pattern){
-		if("W1R3".equals(pattern)){ // 1 wolf, 3 rabbit
-			addEntity(new Rabbit(), 4, 4);
-			addEntity(new Rabbit(), 7, 2);
-			addEntity(new Rabbit(), 2, 7);
-			addEntity(new Wolf(), 8, 8);
-		}
-		else if("full_test".equals(pattern)){
-			// stone A
-			addEntity(new Stone(), 3, 4);
-			addEntity(new Stone(), 4, 3);
-			addEntity(new Stone(), 4, 4);
-			addEntity(new Stone(), 5, 3);
-			addEntity(new Stone(), 5, 4);
-			addEntity(new Stone(), 5, 5);
-			addEntity(new Stone(), 5, 6);
-			addEntity(new Stone(), 6, 5);
-			addEntity(new Stone(), 6, 6);
-			// stone B
-			addEntity(new Stone(), 12, 17);
-			addEntity(new Stone(), 13, 17);
-			addEntity(new Stone(), 13, 18);
-			// stone C
-			addEntity(new Stone(), 20, 15);
-			addEntity(new Stone(), 21, 13);
-			addEntity(new Stone(), 21, 14);
-			addEntity(new Stone(), 21, 15);
-			addEntity(new Stone(), 22, 13);
-			addEntity(new Stone(), 22, 14);
-			addEntity(new Stone(), 22, 15);
-			addEntity(new Stone(), 23, 14);
-			addEntity(new Stone(), 23, 15);
-			addEntity(new Stone(), 23, 16);
-			addEntity(new Stone(), 24, 15);
-			// Tree A
-			addEntity(new Tree(), 6, 11);
-			addEntity(new Tree(), 7, 10);
-			addEntity(new Tree(), 7, 11);
-			addEntity(new Tree(), 7, 12);
-			addEntity(new Tree(), 8, 11);
-			addEntity(new Tree(), 8, 12);
-			addEntity(new Tree(), 8, 13);
-			addEntity(new Tree(), 9, 13);
-			// Tree B
-			addEntity(new Tree(), 11, 15);
-			addEntity(new Tree(), 12, 16);
-			addEntity(new Tree(), 13, 15);
-			addEntity(new Tree(), 13, 16);
-			addEntity(new Tree(), 14, 16);
-			addEntity(new Tree(), 14, 17);
-			// Tree C			
-			addEntity(new Tree(), 17, 10);
-			addEntity(new Tree(), 17, 11);
-			addEntity(new Tree(), 18, 10);
-			addEntity(new Tree(), 18, 11);
-			addEntity(new Tree(), 19, 11);
-			// Tree D
-			addEntity(new Tree(), 21, 5);
-			addEntity(new Tree(), 23, 7);
-			addEntity(new Tree(), 24, 3);
-			addEntity(new Tree(), 25, 3);
-			addEntity(new Tree(), 26, 3);
-			addEntity(new Tree(), 27, 4);
-			// Plants
-			addEntity(new Plant(), 4, 24);
-			addEntity(new Plant(), 4, 28);
-			addEntity(new Plant(), 5, 20);
-			addEntity(new Plant(), 5, 22);
-			addEntity(new Plant(), 7, 17);
-			addEntity(new Plant(), 7, 18);
-			addEntity(new Plant(), 8, 5);
-			addEntity(new Plant(), 8, 5);
-			addEntity(new Plant(), 9, 20);
-			addEntity(new Plant(), 9, 25);
-			addEntity(new Plant(), 13, 4);
-			addEntity(new Plant(), 13, 4);
-			addEntity(new Plant(), 13, 6);
-			addEntity(new Plant(), 13, 7);
-			addEntity(new Plant(), 13, 22);
-			addEntity(new Plant(), 14, 6);
-			addEntity(new Plant(), 15, 4);
-			addEntity(new Plant(), 17, 20);
-			addEntity(new Plant(), 19, 16);
-			addEntity(new Plant(), 21, 10);
-			addEntity(new Plant(), 25, 4);
-			addEntity(new Plant(), 25, 18);
-			addEntity(new Plant(), 25, 5);
-			addEntity(new Plant(), 26, 15);
-			addEntity(new Plant(), 26, 18);
-			addEntity(new Plant(), 28, 5);
-			addEntity(new Plant(), 28, 7);
-			addEntity(new Plant(), 28, 9);
-			// rabbits
-			addEntity(new Rabbit(), 6, 24);
-			addEntity(new Rabbit(), 13, 10);
-			addEntity(new Rabbit(), 18, 8);
-			addEntity(new Rabbit(), 19, 3);
-			addEntity(new Rabbit(), 24, 21);
-			addEntity(new Rabbit(), 24, 24);
-			addEntity(new Rabbit(), 27, 22);
-			// wolfs
-			addEntity(new Wolf(), 1, 14);
-			addEntity(new Wolf(), 29, 15);
-			// bear
-			addEntity(new Bear(), 19, 22);
-		}
+		if(current == null) current = this;
 	}
 
 	public boolean addEntity(Entity entity, int x, int y){
 		//log("adding " + entity + " to pos (" + x + ", " + y + ")");
-		if(x < 0 || x >= Game.MAX_X) return false;
-		if(y < 0 || y >= Game.MAX_Y) return false;
 		if(!setEntityPos(entity, x, y)) return false;
-		entities.add(entity);		
+		entities.add(entity);
 		return true;
 	}
 
 	private boolean setEntityPos(Entity entity, int x, int y){
-		if(grid[x][y] != null){
-			if(grid[x][y] == entity) return true;
-			log("@State - cannot place [" + entity + "] at (" + x + ", " + y + "): space already in use");
+		if(x < 0 || x >= Game.MAX_X) return false;
+		if(y < 0 || y >= Game.MAX_Y) return false;
+		if(grid[y][x] != null){
+			if(grid[y][x] == entity) return true;
+			log("@State - cannot place [" + entity + "] at (" + x + ", " + y + "): space already in use by " + grid[y][x].toString());
 			return false;
 		}
-		grid[x][y] = entity;
+		int prev_x = entity.getX();
+		int prev_y = entity.getY();
+		// TODO FIX invert grid coords
+		if(prev_x != Entity.INEX && prev_y != Entity.INEX) grid[prev_y][prev_x] = null; // remove from previous pos
+		grid[y][x] = entity;
 		entity.setP(x, y);
 		update_observers();
 		return true;
@@ -164,7 +55,8 @@ public class State implements Cloneable{
 		double min_dist = 999;
 		for(Entity ent : entities){
 			if(ent.getType() != type) continue;
-			dist = Math.sqrt(Math.pow(ent.getX(), 2) + Math.pow(ent.getY(), 2));
+			if(!ent.isAlive()) continue;
+			dist = Math.sqrt(Math.pow(ent.getX() - x, 2) + Math.pow(ent.getY() - y, 2));
 			if(dist < min_dist){
 				min_dist = dist;
 				pos[0] = ent.getX();
@@ -177,7 +69,7 @@ public class State implements Cloneable{
 	/*       -
 	 * 	   -[1] [2] [3]+
 	 * 		[8] [0] [4]
-	 * 		[5] [6] [7]
+	 * 		[7] [6] [5]
 	 *       +
 	 */
 	private boolean setEntityPos(Entity entity, int dir){
@@ -185,29 +77,30 @@ public class State implements Cloneable{
 			case 0:{
 				return true;
 			}
-			case 1:{
+			case 1: // 1 = 9
+			case 9:{
 				return (setEntityPos(entity, entity.getX() - 1, entity.getY() - 1));
 			}
 			case 2:{
-				return (setEntityPos(entity, entity.getX() - 0, entity.getY() - 1));
+				return (setEntityPos(entity, entity.getX() + 0, entity.getY() - 1));
 			}
 			case 3:{
 				return (setEntityPos(entity, entity.getX() + 1, entity.getY() - 1));
 			}
 			case 4:{
-				return (setEntityPos(entity, entity.getX() + 1, entity.getY() - 0));
+				return (setEntityPos(entity, entity.getX() + 1, entity.getY() + 0));
 			}
 			case 5:{
-				return (setEntityPos(entity, entity.getX() - 1, entity.getY() + 1));
+				return (setEntityPos(entity, entity.getX() + 1, entity.getY() + 1));
 			}
 			case 6:{
 				return (setEntityPos(entity, entity.getX() + 0, entity.getY() + 1));
 			}
 			case 7:{
-				return (setEntityPos(entity, entity.getX() + 1, entity.getY() + 1));
+				return (setEntityPos(entity, entity.getX() - 1, entity.getY() + 1));
 			}
 			case 8:{
-				return (setEntityPos(entity, entity.getX() - 1, entity.getY() - 0));
+				return (setEntityPos(entity, entity.getX() - 1, entity.getY() + 0));
 			}
 			default:{
 				return false;
@@ -217,17 +110,20 @@ public class State implements Cloneable{
 
 	public void print(){
 		//log(String.format("> printing %s (%d states total)]:", this, states.size()));
+		log(this.toString() + ":");
 		for(int x = 0;x < Game.MAX_X;x++){
 			for(int y = 0;y < Game.MAX_Y;y++){
 				if(grid[x][y] == null) continue;
-				log(String.format("(%d, %d) - %s", x, y, grid[x][y].toString()));
+				log(String.format("\t(%d, %d) - %s", x, y, grid[x][y].toString()));
 			}
 		}
 	}
 
 	public static void printList(){
-		//log("@printList() - State:");
+		log("@printList()");
+		int z = 0;
 		for(Map.Entry<Integer, State> entry : states.entrySet()){
+			System.out.print("ID " + z++ + " - ");
 			entry.getValue().print();
 		}
 	}
@@ -237,7 +133,9 @@ public class State implements Cloneable{
 		ID++;
 		for(Entity entity : entities){
 			inner:for(int attempt = 0;attempt < MAX_MOVE_ATTEMPT;attempt++){
-				if(setEntityPos(entity, entity.move())) break inner; // aka continue outer
+				if(setEntityPos(entity, entity.move())){
+					break inner; // aka continue outer
+				}
 			}
 		}
 		update_observers();
@@ -245,24 +143,46 @@ public class State implements Cloneable{
 	}
 
 	public Entity[][] getSurroundings(int pos_x, int pos_y){
-		Entity[][] surrounding = new Entity[5][5];
-		for(int x = pos_x - 2;x < (pos_x + 2);x++){
+		/*
+		int diameter = 3;
+		Entity[][] surroundings = new Entity[diameter][diameter];
+		int start_x = pos_x - (diameter / 2);
+		int start_y = pos_y - (diameter / 2);
+		for(int x = start_x;x < (pos_x + (diameter / 2));x++){
 			if(x < 0 || x > Game.MAX_X) continue;
-			for(int y = pos_y - 2;y < (pos_y + 2);y++){
+			for(int y = start_y;y < (pos_y + (diameter / 2));y++){
 				if(y < 0 || y > Game.MAX_Y) continue;
 				if(pos_x == x && pos_y == y) continue;
-				surrounding[x][y] = grid[x][y];
+				surroundings[x - start_x][y - start_y] = grid[x][y];
+		
 			}
 		}
-		return surrounding;
+		*/
+		//log("@getSurroundings(" + pos_x + ", " + pos_y + ")");
+		Entity[][] surroundings = new Entity[3][3];
+		int start_x = pos_x - 1; // 2
+		int start_y = pos_y - 1; // 2
+		for(int x = start_x;x <= (pos_x + 1);x++){ // 2 -> 4
+			if(x < 0 || x >= Game.MAX_X) continue;
+			for(int y = start_y;y <= (pos_y + 1);y++){// 2 -> 4
+				if(y < 0 || y >= Game.MAX_Y) continue;
+				if(pos_x == x && pos_y == y) continue;
+				if(x - start_x < 0 || x - start_x >= Game.MAX_X) continue;
+				if(y - start_y < 0 || y - start_y >= Game.MAX_Y) continue;
+				surroundings[x - start_x][y - start_y] = grid[y][x];
+			}
+		}
+		return surroundings;
 	}
 
 	private void save(){
 		//log(String.format("State ID: %d saved", ID));
 		try{
-			states.put(ID, (State) this.clone());// save copy of state
+			//State copy = (State) this.clone();
+			State copy = this.copy_state();
+			states.put(ID, copy); // save copy of state
 		}
-		catch(CloneNotSupportedException e){
+		catch(Exception e){
 			log("ERROR @ State.save() : failed clonning");
 		}
 	}
@@ -272,7 +192,9 @@ public class State implements Cloneable{
 		if(state < 0) state = 0;
 		ID = state;
 		//log(String.format("State ID: %d loaded", ID));
-		return states.get(ID);
+		current = states.get(ID);
+		update_observers();
+		return current;
 	}
 
 	public static State getCurrent(){
@@ -289,31 +211,49 @@ public class State implements Cloneable{
 		System.out.println(message.toString());
 	}
 
-	public void update_observers(){
+	public static void update_observers(){
 		for(Observer o : observers)
-			o.onUpdate(grid);
+			o.onUpdate(current.grid);
 	}
 
-	public void register_observer(Observer obj){
+	public static void register_observer(Observer obj){
 		observers.add(obj);
 		update_observers();
+	}
+
+	public static void loadState(int ID){
+		current = State.load(ID);
+		State.update_observers();
 	}
 
 	public static void loadLast(){
 		current = State.load(ID - 1);
 		log("current state is now " + current);
-	}
-
-	public static void loadState(int ID){
-		current = State.load(ID);
+		State.update_observers();
+		current.print();
 	}
 
 	public static void nextState(){
 		current = current.tick();
 		log("current state is now " + current);
+		current.print();
 	}
 
-	public static void setCurrent(State st){
-		current = st;
+	private State copy_state(){
+		State copy = new State();
+		copy.entities = new ArrayList<Entity>();
+		copy.grid = new Entity[Game.MAX_X][Game.MAX_Y];
+		for(Entity ent : entities){
+			copy.entities.add(ent.copy_entity());
+		}
+		for(int x = 0;x < Game.MAX_X;x++){
+			for(int y = 0;y < Game.MAX_Y;y++){
+				//copy.grid[x][y] = null;
+				if(this.grid[x][y] != null){
+					copy.grid[x][y] = this.grid[x][y].copy_entity();
+				}
+			}
+		}
+		return copy;
 	}
 }

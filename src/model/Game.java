@@ -18,24 +18,28 @@ public class Game{
 
 	public static void main(String[] args){
 		if(debug){
-			new Game(30, 30);
+			new Game(10, 10, -1);
 			return;
 		}
 		JTextField field_width = new JTextField(3);
 		JTextField field_height = new JTextField(3);
+		JTextField field_duration = new JTextField(3);
 		JPanel input = new JPanel();
 		input.setLayout(new BoxLayout(input, BoxLayout.PAGE_AXIS));
 		input.add(new JLabel("Ingrese:"));
-		input.add(new JLabel("ancho: "));
+		input.add(new JLabel("ancho (min 10): "));
 		input.add(field_width);
-		input.add(new JLabel("alto: "));
+		input.add(new JLabel("alto (min 10): "));
 		input.add(field_height);
-		int width = 5, height = 5;
+		input.add(new JLabel("duracion: "));
+		input.add(field_duration);
+		int width = 5, height = 5, duration;
 		JOptionPane.showMessageDialog(null, input, "Simulador de Vida Salvaje", JOptionPane.INFORMATION_MESSAGE);
 		while(true){
 			try{
 				width = Integer.parseInt(field_width.getText());
 				height = Integer.parseInt(field_height.getText());
+				duration = Integer.parseInt(field_duration.getText());
 				break;
 			}
 			catch(Exception e){
@@ -44,18 +48,16 @@ public class Game{
 		}
 		width = (width < 10) ? 10 : width;
 		height = (height < 10) ? 10 : height;
+		duration = (duration < 0) ? 99999 : duration;
 		// Singleton -> private constructor
-		new Game(width, height);
-		//Timeout reloj = new Timeout(minutos, segundos);
+		new Game(width, height, duration);
 	}
 
 	//TODO CHANGE TO PRIVATE
-	public Game(int width, int height){
+	public Game(int width, int height, int duration){
 		MAX_Y = width;
 		MAX_X = height;
-		if(debug) new State("full_test");
-		else
-			new State();
+		new State();
 		new Screen(width, height);
 		new Updater();
 	}

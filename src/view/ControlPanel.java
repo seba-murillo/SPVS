@@ -14,7 +14,7 @@ import model.Updater;
 public class ControlPanel extends JPanel implements ActionListener{
 
 	Timeout	reloj;
-	int	cont = 0;
+	int		cont	= 0;
 
 	private static final String	STR_PLAY	= "▶";
 	private static final String	STR_PAUSE	= "▮▮";

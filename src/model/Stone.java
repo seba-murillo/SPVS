@@ -24,6 +24,6 @@ public class Stone extends Entity{
 	}
 
 	@Override
-	public void die(){
+	public void kill(String reason){
 	}
 }

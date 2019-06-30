@@ -10,6 +10,7 @@ public abstract class Entity{
 
 	public static final File FILE_DEAD = new File("img/skull.png");
 
+	public static final int	INEX		= -1;
 	public static final int	TYPE_STONE	= 1;
 	public static final int	TYPE_PLANT	= 2;
 	public static final int	TYPE_TREE	= 3;
@@ -17,16 +18,23 @@ public abstract class Entity{
 	public static final int	TYPE_WOLF	= 5;
 	public static final int	TYPE_BEAR	= 6;
 
-	protected int			X, Y;
+	public static final int FOOD_GAIN = 10;
+
+	protected int			X		= -1;
+	protected int			Y		= -1;
 	protected String		name	= null;
 	protected int			type;
 	protected BufferedImage	icon;
-	protected int			food	= 10;
+	protected int			food	= 990;
 	protected int			move_rest_needed;
 	protected int			move_cooldown;
 	protected boolean		alive	= true;
 
 	public abstract int move();
+
+	public boolean isAlive(){
+		return alive;
+	}
 
 	public void addFood(int food){
 		this.food += food;
@@ -38,11 +46,6 @@ public abstract class Entity{
 
 	public int getFood(){
 		return food;
-	}
-
-	public void die(){
-		alive = false;
-		setIcon(Entity.FILE_DEAD);
 	}
 
 	public void setX(int x){
@@ -98,8 +101,95 @@ public abstract class Entity{
 		return icon;
 	}
 
+	/*       -
+	 * 	   -[1] [2] [3]+
+	 * 		[8] [0] [4]
+	 * 		[7] [6] [5]
+	 *       +
+	 */
+	/* new
+	 *       -
+	 * 	   -[3] [8] [1]+
+	 * 		[2] [0] [6]
+	 * 		[5] [4] [7]
+	 *       +
+	 */
 	public static int pathfind(int from_x, int from_y, int to_x, int to_y){
-		// TODO Auto-generated method stub
-		return 0;
+		int dir;
+		if(to_x > from_x){ // go right
+			if(to_y > from_y) dir = 5; // go down
+			else if(to_y < from_y) dir = 3; // go up
+			else
+				dir = 4;
+		}
+		else if(to_x < from_x){ // go left
+			if(to_y > from_y) dir = 7; // go down
+			else if(to_y < from_y) dir = 1; // go up
+			else
+				dir = 8;
+		}
+		else{
+			if(to_y > from_y) dir = 6;
+			else if(to_y < from_y) dir = 2;
+			else
+				return 0;
+		}
+		//log("@pathfind dir: " + dir);
+		//dir = ((int) (byte) dir) + 1;
+		return dir;
+	}
+
+	public void kill(String reason){
+		if("starvation".equals(reason)) log(this.toString() + " died from starvation");
+		else
+			log(this.toString() + " was eaten by " + reason);
+		food = -1;
+		alive = false;
+		type = Entity.INEX;
+		setName(name + " (dead)");
+		setIcon(Entity.FILE_DEAD);
+	}
+
+	public Entity copy_entity(){
+		Entity entity;
+		switch(this.type){
+			case TYPE_STONE:{
+				entity = new Stone();
+				break;
+			}
+			case TYPE_PLANT:{
+				entity = new Plant();
+				break;
+			}
+			case TYPE_TREE:{
+				entity = new Tree();
+				break;
+			}
+			case TYPE_RABBIT:{
+				entity = new Rabbit();
+				break;
+			}
+			case TYPE_WOLF:{
+				entity = new Wolf();
+				break;
+			}
+			case TYPE_BEAR:{
+				entity = new Bear();
+				break;
+			}
+			default:{
+				return null;
+			}
+		}
+		entity.X = this.X;
+		entity.Y = this.Y;
+		entity.name = this.name;
+		entity.type = this.type;
+		entity.icon = this.icon;
+		entity.food = this.food;
+		entity.move_rest_needed = this.move_rest_needed;
+		entity.move_cooldown = this.move_cooldown;
+		entity.alive = this.alive;
+		return entity;
 	}
 }
