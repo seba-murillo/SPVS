@@ -3,7 +3,6 @@ package model;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Timer;
-import view.Screen;
 
 
 public class Updater implements ActionListener{
@@ -32,6 +31,7 @@ public class Updater implements ActionListener{
 		RUN = false;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e){
 		if(!RUN) return;
 		update();
@@ -39,7 +39,6 @@ public class Updater implements ActionListener{
 
 	private void update(){
 		State.getCurrent().tick();
-		Screen.draw();
-		update_timer.start();
+		if(!State.done) update_timer.start();
 	}
 }

@@ -13,9 +13,6 @@ import model.Updater;
 @SuppressWarnings("serial")
 public class ControlPanel extends JPanel implements ActionListener{
 
-	Timeout	reloj;
-	int		cont	= 0;
-
 	private static final String	STR_PLAY	= "▶";
 	private static final String	STR_PAUSE	= "▮▮";
 	private static final String	STR_PREV	= "⧏";
@@ -37,6 +34,9 @@ public class ControlPanel extends JPanel implements ActionListener{
 		btn_prev.addActionListener(this);
 		btn_play.addActionListener(this);
 		btn_next.addActionListener(this);
+		btn_play.setToolTipText("auto-play");
+		btn_prev.setToolTipText("cargar estado anterior");
+		btn_next.setToolTipText("cargar siguiente estado");
 	}
 
 	@Override
@@ -46,13 +46,13 @@ public class ControlPanel extends JPanel implements ActionListener{
 				btn_play.setText(STR_PAUSE);
 				btn_play.setBackground(Color.RED);
 				Updater.play();
-				cont++;
-				if(cont == 1 && reloj != null) reloj.start();
+				btn_play.setToolTipText("pausar simulacion");
 			}
 			else if(STR_PAUSE.equals(btn_play.getText())){ // pause
 				btn_play.setText(STR_PLAY);
 				btn_play.setBackground(Color.GREEN);
 				Updater.pause();
+				btn_play.setToolTipText("continuar simulacion");
 			}
 		}
 		else if(e.getSource() == btn_prev){

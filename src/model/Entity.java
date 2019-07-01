@@ -25,7 +25,7 @@ public abstract class Entity{
 	protected String		name	= null;
 	protected int			type;
 	protected BufferedImage	icon;
-	protected int			food	= 990;
+	protected int			food	= 40;
 	protected int			move_rest_needed;
 	protected int			move_cooldown;
 	protected boolean		alive	= true;
@@ -107,13 +107,6 @@ public abstract class Entity{
 	 * 		[7] [6] [5]
 	 *       +
 	 */
-	/* new
-	 *       -
-	 * 	   -[3] [8] [1]+
-	 * 		[2] [0] [6]
-	 * 		[5] [4] [7]
-	 *       +
-	 */
 	public static int pathfind(int from_x, int from_y, int to_x, int to_y){
 		int dir;
 		if(to_x > from_x){ // go right
@@ -191,5 +184,10 @@ public abstract class Entity{
 		entity.move_cooldown = this.move_cooldown;
 		entity.alive = this.alive;
 		return entity;
+	}
+
+	public String getInfo(){
+		String tooltip = "<html>" + name + ":<br />comida: " + food + "<br />vivo: " + alive;
+		return tooltip;
 	}
 }

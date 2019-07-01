@@ -10,7 +10,6 @@ import model.State;
 import model.Stone;
 import model.Tree;
 import model.Wolf;
-import view.Screen;
 
 
 class FullSysTest{

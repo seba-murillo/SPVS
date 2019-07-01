@@ -17,7 +17,7 @@ class EntityTest{
 	void test(){
 		Game.MAX_X = 10;
 		Game.MAX_Y = 10;
-		State state = new State();
+		State state = new State(0);
 		assert (state.addEntity(new Plant(), 0, 0));
 		assert (state.addEntity(new Tree(), 1, 1));
 		assert (state.addEntity(new Stone(), 2, 2));

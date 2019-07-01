@@ -1,6 +1,5 @@
 package tests;
 
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import model.Fluffy;
 import model.State;
@@ -16,7 +15,7 @@ class FluffyDirectionTest{
 	 */
 	@Test
 	void test(){
-		new State();
+		new State(0);
 		Fluffy fluffy = new Fluffy();
 		assert (fluffy.move() == 2);
 		assert (fluffy.move() == 4);

@@ -1,11 +1,9 @@
 package tests;
 
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import model.Fluffy;
 import model.Game;
 import model.State;
-import model.Stone;
 
 
 class FluffyWalkTest{

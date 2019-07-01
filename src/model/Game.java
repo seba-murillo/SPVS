@@ -10,15 +10,14 @@ import view.Screen;
 
 public class Game{
 
-	public static final boolean	verbose	= false;
-	public static final boolean	debug	= true;
+	public static final boolean debug = true;
 
 	public static int	MAX_X;
 	public static int	MAX_Y;
 
 	public static void main(String[] args){
 		if(debug){
-			new Game(10, 10, -1);
+			new Game(10, 10, 10);
 			return;
 		}
 		JTextField field_width = new JTextField(3);
@@ -57,7 +56,7 @@ public class Game{
 	public Game(int width, int height, int duration){
 		MAX_Y = width;
 		MAX_X = height;
-		new State();
+		new State(duration);
 		new Screen(width, height);
 		new Updater();
 	}

@@ -1,11 +1,8 @@
 package tests;
 
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import model.FixedRabbit;
 import model.Game;
-import model.Plant;
-import model.Rabbit;
 import model.State;
 import model.Wolf;
 

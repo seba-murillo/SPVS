@@ -1,12 +1,10 @@
 package tests;
 
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import model.Game;
 import model.Rabbit;
 import model.State;
 import model.Wolf;
-import view.Screen;
 
 
 class Rabbit3Wolf1Test{
@@ -30,5 +28,4 @@ class Rabbit3Wolf1Test{
 			}
 		}
 	}
-
 }
