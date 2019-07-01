@@ -47,8 +47,10 @@ public class Game{
 		}
 		width = (width < 10) ? 10 : width;
 		height = (height < 10) ? 10 : height;
+		width = (width > 50) ? 50 : width;
+		height = (height > 50) ? 50 : height;
 		duration = (duration < 0) ? 99999 : duration;
-		JOptionPane.showMessageDialog(null, null, "Utilice click derecho para agregar animales", JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(null, "Utilice click derecho para agregar animales", "Simulador de Vida Salvaje", JOptionPane.INFORMATION_MESSAGE);
 		new Game(width, height, duration);
 	}
 
