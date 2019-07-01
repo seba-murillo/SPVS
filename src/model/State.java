@@ -7,6 +7,7 @@ import java.util.TreeMap;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import controller.Controller;
 
 
 public class State implements Cloneable{
@@ -24,7 +25,7 @@ public class State implements Cloneable{
 	private static int						ID			= 0;
 
 	private ArrayList<Entity>	entities	= new ArrayList<Entity>();
-	private Entity[][]			grid		= new Entity[Game.MAX_X][Game.MAX_Y];
+	private Entity[][]			grid		= new Entity[Controller.MAX_X][Controller.MAX_Y];
 
 	public State(int duration){
 		MAX_DURATION = duration;
@@ -42,18 +43,18 @@ public class State implements Cloneable{
 	}
 
 	private boolean setEntityPos(Entity entity, int x, int y){
-		if(x < 0 || x >= Game.MAX_X) return false;
-		if(y < 0 || y >= Game.MAX_Y) return false;
-		if(grid[y][x] != null){
-			if(grid[y][x] == entity) return true;
-			log("@State - cannot place [" + entity + "] at (" + x + ", " + y + "): space already in use by " + grid[y][x].toString());
+		if(x < 0 || x >= Controller.MAX_X) return false;
+		if(y < 0 || y >= Controller.MAX_Y) return false;
+		if(grid[x][y] != null){
+			if(grid[x][y] == entity) return true;
+			//log("@State - cannot place [" + entity + "] at (" + x + ", " + y + "): space already in use by " + grid[x][y].toString());
 			return false;
 		}
 		int prev_x = entity.getX();
 		int prev_y = entity.getY();
 		// TODO FIX invert grid coords
-		if(prev_x != Entity.INEX && prev_y != Entity.INEX) grid[prev_y][prev_x] = null; // remove from previous pos
-		grid[x][x] = entity;
+		if(prev_x != Entity.INEX && prev_y != Entity.INEX) grid[prev_x][prev_y] = null; // remove from previous pos
+		grid[x][y] = entity;
 		entity.setP(x, y);
 		update_observers();
 		return true;
@@ -77,9 +78,9 @@ public class State implements Cloneable{
 	}
 
 	/*       -
-	 * 	   -[1] [2] [3]+
-	 * 		[8] [0] [4]
-	 * 		[7] [6] [5]
+	 * 	   -[1] [4] [7]+
+	 * 		[2] [0] [6]
+	 * 		[3] [8] [5]
 	 *       +
 	 */
 	private boolean setEntityPos(Entity entity, int dir){
@@ -121,8 +122,8 @@ public class State implements Cloneable{
 	public void print(){
 		//log(String.format("> printing %s (%d states total)]:", this, states.size()));
 		log(this.toString() + ":");
-		for(int x = 0;x < Game.MAX_X;x++){
-			for(int y = 0;y < Game.MAX_Y;y++){
+		for(int x = 0;x < Controller.MAX_X;x++){
+			for(int y = 0;y < Controller.MAX_Y;y++){
 				if(grid[x][y] == null) continue;
 				log(String.format("\t(%d, %d) - %s", x, y, grid[x][y].toString()));
 			}
@@ -165,13 +166,13 @@ public class State implements Cloneable{
 		int start_x = pos_x - 1; // 2
 		int start_y = pos_y - 1; // 2
 		for(int x = start_x;x <= (pos_x + 1);x++){ // 2 -> 4
-			if(x < 0 || x >= Game.MAX_X) continue;
+			if(x < 0 || x >= Controller.MAX_X) continue;
 			for(int y = start_y;y <= (pos_y + 1);y++){// 2 -> 4
-				if(y < 0 || y >= Game.MAX_Y) continue;
+				if(y < 0 || y >= Controller.MAX_Y) continue;
 				if(pos_x == x && pos_y == y) continue;
-				if(x - start_x < 0 || x - start_x >= Game.MAX_X) continue;
-				if(y - start_y < 0 || y - start_y >= Game.MAX_Y) continue;
-				surroundings[x - start_x][y - start_y] = grid[y][x];
+				if(x - start_x < 0 || x - start_x >= Controller.MAX_X) continue;
+				if(y - start_y < 0 || y - start_y >= Controller.MAX_Y) continue;
+				surroundings[x - start_x][y - start_y] = grid[x][y];
 			}
 		}
 		return surroundings;
@@ -244,12 +245,12 @@ public class State implements Cloneable{
 	private State copy_state(){
 		State copy = new State(MAX_DURATION);
 		copy.entities = new ArrayList<Entity>();
-		copy.grid = new Entity[Game.MAX_X][Game.MAX_Y];
+		copy.grid = new Entity[Controller.MAX_X][Controller.MAX_Y];
 		for(Entity ent : entities){
 			copy.entities.add(ent.copy_entity());
 		}
-		for(int x = 0;x < Game.MAX_X;x++){
-			for(int y = 0;y < Game.MAX_Y;y++){
+		for(int x = 0;x < Controller.MAX_X;x++){
+			for(int y = 0;y < Controller.MAX_Y;y++){
 				//copy.grid[x][y] = null;
 				if(this.grid[x][y] != null){
 					copy.grid[x][y] = this.grid[x][y].copy_entity();
@@ -264,8 +265,8 @@ public class State implements Cloneable{
 	}
 
 	public void removeEntityAt(int x, int y){
-		entities.remove(grid[y][x]);
-		grid[y][x] = null;
+		entities.remove(grid[x][y]);
+		grid[x][y] = null;
 		State.update_observers();
 	}
 }

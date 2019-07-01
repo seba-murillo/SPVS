@@ -1,6 +1,7 @@
 package tests;
 
 import org.junit.jupiter.api.Test;
+import controller.Controller;
 import model.Entity;
 import model.FixedRabbit;
 import model.Fluffy;
@@ -17,7 +18,7 @@ class StateSurroundingsTest{
 	void test(){
 		int start_pos = 3;
 		new Game(2 * start_pos + 1, 2 * start_pos + 1, -1);
-		State state = State.getCurrent();
+		State state = Controller.getCurrentState();
 		Fluffy fluffy = new Fluffy();
 		state.addEntity(fluffy, start_pos, start_pos);
 		Entity P1 = new Plant();
@@ -37,7 +38,7 @@ class StateSurroundingsTest{
 		state.addEntity(R1, start_pos - 1, start_pos - 1);
 		state.addEntity(R2, start_pos + 1, start_pos - 1);
 
-		Entity[][] surroundings = State.getCurrent().getSurroundings(fluffy.getX(), fluffy.getY());
+		Entity[][] surroundings = Controller.getCurrentState().getSurroundings(fluffy.getX(), fluffy.getY());
 		log(surroundings[0][0]);
 		log(surroundings[0][1]);
 		log(surroundings[0][2]);

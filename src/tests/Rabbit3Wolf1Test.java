@@ -1,6 +1,7 @@
 package tests;
 
 import org.junit.jupiter.api.Test;
+import controller.Controller;
 import model.Game;
 import model.Rabbit;
 import model.State;
@@ -12,7 +13,7 @@ class Rabbit3Wolf1Test{
 	@Test
 	void test(){
 		new Game(10, 10, -1);
-		State state = State.getCurrent();
+		State state = Controller.getCurrentState();
 		state.addEntity(new Rabbit(), 4, 4);
 		state.addEntity(new Rabbit(), 7, 2);
 		state.addEntity(new Rabbit(), 2, 7);
@@ -20,7 +21,7 @@ class Rabbit3Wolf1Test{
 		for(int i = 0;i < 50;i++){
 			state.tick();
 			try{
-				Thread.sleep(1000);
+				Thread.sleep(500);
 			}
 			catch(InterruptedException e){
 				// TODO Auto-generated catch block

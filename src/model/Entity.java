@@ -102,9 +102,9 @@ public abstract class Entity{
 	}
 
 	/*       -
-	 * 	   -[1] [2] [3]+
-	 * 		[8] [0] [4]
-	 * 		[7] [6] [5]
+	 * 	   -[1] [4] [7]+
+	 * 		[2] [0] [6]
+	 * 		[3] [8] [5]
 	 *       +
 	 */
 	public static int pathfind(int from_x, int from_y, int to_x, int to_y){

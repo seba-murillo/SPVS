@@ -1,6 +1,7 @@
 package tests;
 
 import org.junit.jupiter.api.Test;
+import controller.Controller;
 import model.FixedRabbit;
 import model.Game;
 import model.State;
@@ -19,7 +20,7 @@ class WolfTest{
 	void test(){
 		int start_pos = 4;
 		new Game(10, 10, -1);
-		State state = State.getCurrent();
+		State state = Controller.getCurrentState();
 		Wolf wolf = new Wolf();
 		FixedRabbit P1 = new FixedRabbit();
 		FixedRabbit P2 = new FixedRabbit();

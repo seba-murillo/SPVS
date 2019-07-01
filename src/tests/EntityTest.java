@@ -1,6 +1,7 @@
 package tests;
 
 import org.junit.jupiter.api.Test;
+import controller.Controller;
 import model.Bear;
 import model.Game;
 import model.Plant;
@@ -15,8 +16,8 @@ class EntityTest{
 
 	@Test
 	void test(){
-		Game.MAX_X = 10;
-		Game.MAX_Y = 10;
+		Controller.MAX_X = 10;
+		Controller.MAX_Y = 10;
 		State state = new State(0);
 		assert (state.addEntity(new Plant(), 0, 0));
 		assert (state.addEntity(new Tree(), 1, 1));

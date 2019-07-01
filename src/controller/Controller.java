@@ -1,9 +1,10 @@
-package Controller;
+package controller;
 
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import model.Bear;
 import model.Entity;
+import model.Game;
 import model.Plant;
 import model.Rabbit;
 import model.State;
@@ -13,20 +14,13 @@ import model.Wolf;
 
 
 public class Controller{
-
-	public static void showMenu1(int x, int y, JPanel panel){ // left click
-		/*
-		log("SHOW MENU1 @ " + x + " " + y);
-		JPopupMenu menu = new JPopupMenu("Menu");
-		menu.add("remove entity");
-		menu.show(panel, 20, 10);
-		*/
-
-	}
+	
+	public static int MAX_X;
+	public static int MAX_Y;
 
 	public static void showMenu(int x, int y, JPanel panel){ // right click
-		State state = State.getCurrent();
-		Entity entity = state.getEntityAt(y, x);
+		State state = getCurrentState();
+		Entity entity = state.getEntityAt(x, y);
 		if(entity == null){
 			JPopupMenu add_menu = new JPopupMenu("menu");
 			add_menu.add("add plant").addActionListener(e->{
@@ -56,6 +50,10 @@ public class Controller{
 			});
 			add_menu.show(panel, 20, 10);
 		}
+	}
+	
+	public static State getCurrentState() {
+		return (State.getCurrent());
 	}
 
 	public static void log(Object message){

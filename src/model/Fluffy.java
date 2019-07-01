@@ -1,6 +1,7 @@
 package model;
 
 import java.io.File;
+import controller.Controller;
 
 
 public class Fluffy extends Entity{
@@ -27,7 +28,7 @@ public class Fluffy extends Entity{
 	}
 
 	private void check_surroundings(){
-		Entity[][] surr = State.getCurrent().getSurroundings(getX(), getY());
+		Entity[][] surr = Controller.getCurrentState().getSurroundings(getX(), getY());
 		outer:for(int x = 0;x < 3;x++){
 			for(int y = 0;y < 3;y++){
 				if(surr[x][y] == null) continue;

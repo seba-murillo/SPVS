@@ -3,6 +3,7 @@ package model;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Timer;
+import controller.Controller;
 
 
 public class Updater implements ActionListener{
@@ -38,7 +39,7 @@ public class Updater implements ActionListener{
 	}
 
 	private void update(){
-		State.getCurrent().tick();
+		Controller.getCurrentState().tick();
 		if(!State.done) update_timer.start();
 	}
 }

@@ -5,15 +5,13 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import controller.Controller;
 import view.Screen;
 
 
 public class Game{
 
-	public static final boolean debug = true;
-
-	public static int	MAX_X;
-	public static int	MAX_Y;
+	public static final boolean debug = false;
 
 	public static void main(String[] args){
 		if(debug){
@@ -54,8 +52,8 @@ public class Game{
 
 	//TODO CHANGE TO PRIVATE
 	public Game(int width, int height, int duration){
-		MAX_Y = width;
-		MAX_X = height;
+		Controller.MAX_Y = width;
+		Controller.MAX_X = height;
 		new State(duration);
 		new Screen(width, height);
 		new Updater();

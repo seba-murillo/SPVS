@@ -1,6 +1,7 @@
 package tests;
 
 import org.junit.jupiter.api.Test;
+import controller.Controller;
 import model.Fluffy;
 import model.Game;
 import model.State;
@@ -9,16 +10,16 @@ import model.State;
 class FluffyWalkTest{
 
 	/*       -
-	 * 	   -[1] [2] [3]+
-	 * 		[8] [0] [4]
-	 * 		[7] [6] [5]
+	 * 	   -[1] [4] [7]+
+	 * 		[2] [0] [6]
+	 * 		[3] [8] [5]
 	 *       +
 	 */
 	@Test
 	void test(){
 		int start_pos = 4;
 		new Game(2 * start_pos + 1, 2 * start_pos + 1, -1);
-		State state = State.getCurrent();
+		State state = Controller.getCurrentState();
 		Fluffy fluffy = new Fluffy();
 		state.addEntity(fluffy, start_pos, start_pos);
 		delay(1000);

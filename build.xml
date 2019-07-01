@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project basedir="." default="build" name="SPVS">
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. --><project basedir="." default="build" name="SPVS">
     <property environment="env"/>
     <property name="junit.output.dir" value="junit"/>
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="1.8"/>
     <property name="source" value="1.8"/>
-	<!--
-    <path id="JUnit 5.libraryclasspath">		
+    <path id="JUnit 5.libraryclasspath">
         <pathelement location="../../../../../../home/seba/.p2/pool/plugins/org.junit.jupiter.api_5.1.0.v20180327-1502.jar"/>
         <pathelement location="../../../../../../home/seba/.p2/pool/plugins/org.junit.jupiter.engine_5.1.0.v20180327-1502.jar"/>
         <pathelement location="../../../../../../home/seba/.p2/pool/plugins/org.junit.jupiter.migrationsupport_5.1.0.v20180327-1502.jar"/>
@@ -22,9 +25,7 @@
         <pathelement location="../../../../../../home/seba/.p2/pool/plugins/org.junit_4.12.0.v201504281640/junit.jar"/>
         <pathelement location="../../../../../../home/seba/.p2/pool/plugins/org.hamcrest.core_1.3.0.v20180420-1519.jar"/>
     </path>
-    -->
     <path id="SPVS.classpath">
-		<pathelement location="lib/junit-4.12.jar" />
         <pathelement location="bin"/>
         <path refid="JUnit 5.libraryclasspath"/>
     </path>
@@ -65,6 +66,51 @@
         <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
         <antcall target="build"/>
     </target>
+    <target name="EntityAddTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="tests.EntityAddTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="SPVS.classpath"/>
+        </junit>
+    </target>
+    <target name="EntityTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="tests.EntityTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="SPVS.classpath"/>
+        </junit>
+    </target>
+    <target name="FluffyAttackTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="tests.FluffyAttackTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="SPVS.classpath"/>
+        </junit>
+    </target>
+    <target name="FluffyDirectionTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="tests.FluffyDirectionTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="SPVS.classpath"/>
+        </junit>
+    </target>
+    <target name="FluffyWalkTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="tests.FluffyWalkTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="SPVS.classpath"/>
+        </junit>
+    </target>
     <target name="FullSysTest">
         <mkdir dir="${junit.output.dir}"/>
         <junit fork="yes" printsummary="withOutAndErr">
@@ -74,10 +120,95 @@
             <classpath refid="SPVS.classpath"/>
         </junit>
     </target>
-    <target name="run">
+    <target name="Game (1)">
         <java classname="model.Game" failonerror="true" fork="yes">
             <classpath refid="SPVS.classpath"/>
         </java>
+    </target>
+    <target name="InputTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="model.InputTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="SPVS.classpath"/>
+        </junit>
+    </target>
+    <target name="Main (16)">
+        <java classname="Main" failonerror="true" fork="yes">
+            <classpath refid="SPVS.classpath"/>
+        </java>
+    </target>
+    <target name="PathFindTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="tests.PathFindTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="SPVS.classpath"/>
+        </junit>
+    </target>
+    <target name="Rabbit3Wolf1Test">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="tests.Rabbit3Wolf1Test" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="SPVS.classpath"/>
+        </junit>
+    </target>
+    <target name="RabbitTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="tests.RabbitTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="SPVS.classpath"/>
+        </junit>
+    </target>
+    <target name="ScreenTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="tests.ScreenTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="SPVS.classpath"/>
+        </junit>
+    </target>
+    <target name="StateSurroundingsTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="tests.StateSurroundingsTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="SPVS.classpath"/>
+        </junit>
+    </target>
+    <target name="tests">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="SPVS.classpath"/>
+        </junit>
+    </target>
+    <target name="Test_A2">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="tests.Test_A2" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="SPVS.classpath"/>
+        </junit>
+    </target>
+    <target name="WolfTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="tests.WolfTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="SPVS.classpath"/>
+        </junit>
     </target>
     <target name="junitreport">
         <junitreport todir="${junit.output.dir}">

@@ -1,6 +1,7 @@
 package tests;
 
 import org.junit.jupiter.api.Test;
+import controller.Controller;
 import model.Game;
 import model.Plant;
 import model.Rabbit;
@@ -19,7 +20,7 @@ class RabbitTest{
 	void test(){
 		int start_pos = 4;
 		new Game(10, 10, -1);
-		State state = State.getCurrent();
+		State state = Controller.getCurrentState();
 		Rabbit rabbit = new Rabbit();
 		Plant P1 = new Plant();
 		Plant P2 = new Plant();

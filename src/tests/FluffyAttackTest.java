@@ -2,6 +2,7 @@ package tests;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import org.junit.jupiter.api.Test;
+import controller.Controller;
 import model.FixedRabbit;
 import model.Fluffy;
 import model.Game;
@@ -20,7 +21,7 @@ class FluffyAttackTest{
 	void test(){
 		int start_pos = 4;
 		new Game(2 * start_pos + 1, 2 * start_pos + 1, -1);
-		State state = State.getCurrent();
+		State state = Controller.getCurrentState();
 		Fluffy fluffy = new Fluffy();
 		FixedRabbit R1 = new FixedRabbit();
 		FixedRabbit R2 = new FixedRabbit();

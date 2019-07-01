@@ -2,6 +2,7 @@
 package tests;
 
 import org.junit.jupiter.api.Test;
+import controller.Controller;
 import model.Bear;
 import model.Game;
 import model.Plant;
@@ -17,7 +18,7 @@ class FullSysTest{
 	@Test
 	void test(){
 		new Game(30, 30, -1);
-		State state = State.getCurrent();
+		State state = Controller.getCurrentState();
 		state.addEntity(new Stone(), 3, 4);
 		state.addEntity(new Stone(), 4, 3);
 		state.addEntity(new Stone(), 4, 4);

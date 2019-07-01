@@ -1,0 +1,63 @@
+<?xml version = "1.0"?>
+<project name = "SPVS" basedir = "." default = "build">
+	<property name = "src.dir" value = "src"/>
+	<property name = "build.dir" value = "ant_build"/>
+	<!--<property name = "junit.dir" value = "/home/seba/.p2/pool/plugins"/> -->
+	<property name = "junit.dir" value = "/home/seba/.p2"/>
+	<property name = "name" value = "Simulador de Vida Salvaje"/>
+	
+	
+	<path id="JUnit 5.libraryclasspath">
+		<pathelement location="../../../../../../home/seba/.p2/pool/plugins/org.junit.jupiter.api_5.1.0.v20180327-1502.jar"/>
+<pathelement location="../../../../../../home/seba/.p2/pool/plugins/org.junit.jupiter.engine_5.1.0.v20180327-1502.jar"/>
+	        <pathelement location="../../../../../../home/seba/.p2/pool/plugins/org.junit.jupiter.migrationsupport_5.1.0.v20180327-1502.jar"/>
+	        <pathelement location="../../../../../../home/seba/.p2/pool/plugins/org.junit.jupiter.params_5.1.0.v20180327-1502.jar"/>
+	        <pathelement location="../../../../../../home/seba/.p2/pool/plugins/org.junit.platform.commons_1.1.0.v20180327-1502.jar"/>
+	        <pathelement location="../../../../../../home/seba/.p2/pool/plugins/org.junit.platform.engine_1.1.0.v20180327-1502.jar"/>
+	        <pathelement location="../../../../../../home/seba/.p2/pool/plugins/org.junit.platform.launcher_1.1.0.v20180327-1502.jar"/>
+	        <pathelement location="../../../../../../home/seba/.p2/pool/plugins/org.junit.platform.runner_1.1.0.v20180327-1502.jar"/>
+	        <pathelement location="../../../../../../home/seba/.p2/pool/plugins/org.junit.platform.suite.api_1.1.0.v20180327-1502.jar"/>
+	        <pathelement location="../../../../../../home/seba/.p2/pool/plugins/org.junit.vintage.engine_5.1.0.v20180327-1502.jar"/>
+	        <pathelement location="../../../../../../home/seba/.p2/pool/plugins/org.opentest4j_1.0.0.v20180327-1502.jar"/>
+	        <pathelement location="../../../../../../home/seba/.p2/pool/plugins/org.apiguardian_1.0.0.v20180327-1502.jar"/>
+	        <pathelement location="../../../../../../home/seba/.p2/pool/plugins/org.junit_4.12.0.v201504281640/junit.jar"/>
+	        <pathelement location="../../../../../../home/seba/.p2/pool/plugins/org.hamcrest.core_1.3.0.v20180420-1519.jar"/>
+	</path>
+
+	<path id = "classPath">
+		<fileset dir = "${build.dir}">
+		<include name = "${junit.dir}/*.jar"/>
+		</fileset>      
+		<pathelement path = "${build.dir}"/>
+		<pathelement location="${junit.dir}/*.jar" />
+		<path refid="JUnit 5.libraryclasspath"/>
+	</path>
+	
+	<target name = "build" description = "compile java files">
+		<mkdir dir = "${build.dir}"/>
+		<junit haltonerror="false" haltonfailure="false" fork="yes">
+			<classpath path="${junit.dir}">
+				<path refid="classPath" />
+			</classpath>
+		</junit>
+		<javac includeantruntime="false" destdir = "${build.dir}">
+			<src path = "${src.dir}"/>
+			<classpath refid = "classPath"/>
+		</javac>
+		<jar destfile = "${build.dir}/SPVS.jar"
+			basedir = "${build.dir}"
+			excludes = "**/tests/**">
+			<manifest>
+				<attribute name = "Main-Class" value = "model.Game"/>
+			</manifest>
+		</jar>
+	</target>
+ 
+	<target name = "clean" description = "clean built project">
+		<delete>
+			<fileset dir = "${build.dir}">
+			<include name = "**/*.class"/>
+			</fileset>
+		</delete>
+	</target>
+</project>

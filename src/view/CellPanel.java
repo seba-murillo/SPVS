@@ -8,7 +8,7 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
-import Controller.Controller;
+import controller.Controller;
 
 
 @SuppressWarnings("serial")
@@ -57,11 +57,14 @@ public class CellPanel extends JPanel implements MouseListener{
 	@Override
 	public void mouseClicked(MouseEvent event){
 		int button = event.getButton();
-		//log(String.format("@CellPanel Mouse Event @ panel (%d, %d) - ID: %d\n", x, y, button));
+		/*
+		log(String.format("@CellPanel Mouse Event @ panel (%d, %d) - ID: %d\n", x, y, button));		
 		if(button == MouseEvent.BUTTON1){ // left click
 			Controller.showMenu1(x, y, this);
 		}
 		else if(button == MouseEvent.BUTTON3){ // right click
+		*/
+		if(button == MouseEvent.BUTTON3){ // right click
 			Controller.showMenu(x, y, this);
 		}
 		// panels[y][x].setBackground(new Color(100,100,100));
