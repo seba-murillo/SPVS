@@ -19,7 +19,7 @@ class RabbitTest{
 	@Test
 	void test(){
 		int start_pos = 4;
-		new Game(10, 10, -1);
+		Game.start(10, 10, -1);
 		State state = Controller.getCurrentState();
 		Rabbit rabbit = new Rabbit();
 		Plant P1 = new Plant();

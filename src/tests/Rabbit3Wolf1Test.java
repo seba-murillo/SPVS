@@ -12,7 +12,7 @@ class Rabbit3Wolf1Test{
 
 	@Test
 	void test(){
-		new Game(10, 10, -1);
+		Game.start(10, 10, -1);
 		State state = Controller.getCurrentState();
 		state.addEntity(new Rabbit(), 4, 4);
 		state.addEntity(new Rabbit(), 7, 2);

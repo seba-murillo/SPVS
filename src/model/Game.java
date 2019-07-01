@@ -12,6 +12,8 @@ import view.Screen;
 public class Game{
 
 	public static final boolean debug = false;
+	
+	private static boolean started = false;
 
 	public static void main(String[] args){
 		if(debug){
@@ -46,17 +48,22 @@ public class Game{
 		width = (width < 10) ? 10 : width;
 		height = (height < 10) ? 10 : height;
 		duration = (duration < 0) ? 99999 : duration;
-		// Singleton -> private constructor
+		JOptionPane.showMessageDialog(null, null, "Utilice click derecho para agregar animales", JOptionPane.INFORMATION_MESSAGE);
 		new Game(width, height, duration);
 	}
 
-	//TODO CHANGE TO PRIVATE
-	public Game(int width, int height, int duration){
+	private Game(int width, int height, int duration){
 		Controller.MAX_Y = width;
 		Controller.MAX_X = height;
 		new State(duration);
 		new Screen(width, height);
 		new Updater();
+	}
+	
+	public static void start(int width, int height, int duration) {
+		if(started) return;
+		started = true;
+		new Game(width, height, duration);
 	}
 
 	public static void error(Object message){

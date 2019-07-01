@@ -20,7 +20,7 @@ class FluffyAttackTest{
 	@Test
 	void test(){
 		int start_pos = 4;
-		new Game(2 * start_pos + 1, 2 * start_pos + 1, -1);
+		Game.start(2 * start_pos + 1, 2 * start_pos + 1, -1);
 		State state = Controller.getCurrentState();
 		Fluffy fluffy = new Fluffy();
 		FixedRabbit R1 = new FixedRabbit();

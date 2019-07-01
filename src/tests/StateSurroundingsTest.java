@@ -17,7 +17,7 @@ class StateSurroundingsTest{
 	@Test
 	void test(){
 		int start_pos = 3;
-		new Game(2 * start_pos + 1, 2 * start_pos + 1, -1);
+		Game.start(2 * start_pos + 1, 2 * start_pos + 1, -1);
 		State state = Controller.getCurrentState();
 		Fluffy fluffy = new Fluffy();
 		state.addEntity(fluffy, start_pos, start_pos);

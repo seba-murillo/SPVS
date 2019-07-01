@@ -17,7 +17,7 @@ class FullSysTest{
 
 	@Test
 	void test(){
-		new Game(30, 30, -1);
+		Game.start(30, 30, -1);
 		State state = Controller.getCurrentState();
 		state.addEntity(new Stone(), 3, 4);
 		state.addEntity(new Stone(), 4, 3);

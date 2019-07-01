@@ -19,7 +19,7 @@ class WolfTest{
 	@Test
 	void test(){
 		int start_pos = 4;
-		new Game(10, 10, -1);
+		Game.start(10, 10, -1);
 		State state = Controller.getCurrentState();
 		Wolf wolf = new Wolf();
 		FixedRabbit P1 = new FixedRabbit();
