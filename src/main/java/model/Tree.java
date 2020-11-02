@@ -13,7 +13,7 @@ public class Tree extends Entity{
 
 	public Tree(String name){
 		setName(name);
-		setIcon(new File("img/tree.png"));
+		setIcon(new File(Entity.RESOURCE + "tree.png"));
 		alive = true;
 		type = Entity.TYPE_TREE;
 	}

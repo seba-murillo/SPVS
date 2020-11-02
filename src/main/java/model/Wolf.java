@@ -15,7 +15,7 @@ public class Wolf extends Entity{
 
 	public Wolf(String name){
 		setName(name);
-		setIcon(new File("img/wolf.png"));
+		setIcon(new File(Entity.RESOURCE + "wolf.png"));
 		type = Entity.TYPE_WOLF;
 	}
 

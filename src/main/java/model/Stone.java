@@ -13,7 +13,7 @@ public class Stone extends Entity{
 
 	public Stone(String name){
 		setName(name);
-		setIcon(new File("img/stone.png"));
+		setIcon(new File(Entity.RESOURCE + "stone.png"));
 		alive = false;
 		type = Entity.TYPE_STONE;
 	}

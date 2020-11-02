@@ -15,7 +15,7 @@ public class Bear extends Entity{
 
 	public Bear(String name){
 		setName(name);
-		setIcon(new File("img/bear.png"));
+		setIcon(new File(Entity.RESOURCE + "bear.png"));
 		type = Entity.TYPE_BEAR;
 	}
 

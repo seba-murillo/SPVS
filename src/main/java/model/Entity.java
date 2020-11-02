@@ -8,7 +8,9 @@ import javax.imageio.ImageIO;
 
 public abstract class Entity{
 
-	public static final File FILE_DEAD = new File("img/skull.png");
+	public static final String RESOURCE = "src/main/resources/images/";
+
+	public static final File FILE_DEAD = new File(Entity.RESOURCE + "skull.png");
 
 	public static final int	INEX		= -1;
 	public static final int	TYPE_STONE	= 1;

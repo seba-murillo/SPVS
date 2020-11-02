@@ -15,7 +15,8 @@ public class Rabbit extends Entity{
 
 	public Rabbit(String name){
 		setName(name);
-		setIcon(new File("img/rabbit.png"));
+		setIcon(new File(Entity.RESOURCE + "rabbit.png"));
+		//image = ImageIO.read(getClass().getResource("/resources/icon.gif"));
 		type = Entity.TYPE_RABBIT;
 	}
 

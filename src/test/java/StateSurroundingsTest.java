@@ -1,4 +1,4 @@
-
+import org.junit.jupiter.api.Test;
 import controller.Controller;
 import model.Entity;
 import model.FixedRabbit;

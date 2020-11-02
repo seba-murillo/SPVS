@@ -10,7 +10,7 @@ public class Fluffy extends Entity{
 
 	public Fluffy(){
 		setName("Fluffy");
-		setIcon(new File("img/wolf.png"));
+		setIcon(new File(Entity.RESOURCE + "wolf.png"));
 		type = Entity.TYPE_WOLF;
 	}
 

@@ -9,7 +9,7 @@ public class FixedRabbit extends Entity{
 
 	public FixedRabbit(){
 		setName("Rabbit " + count++);
-		setIcon(new File("img/rabbit.png"));
+		setIcon(new File(Entity.RESOURCE + "rabbit.png"));
 		type = Entity.TYPE_RABBIT;
 	}
 

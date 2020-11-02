@@ -13,7 +13,7 @@ public class Plant extends Entity{
 
 	public Plant(String name){
 		setName(name);
-		setIcon(new File("img/plant.png"));
+		setIcon(new File(Entity.RESOURCE + "plant.png"));
 		type = Entity.TYPE_PLANT;
 	}
 
@@ -25,7 +25,7 @@ public class Plant extends Entity{
 			move_rest_needed--;
 			return 0;
 		}
-		setIcon(new File("img/plant.png"));
+		setIcon(new File(Entity.RESOURCE + "plant.png"));
 		alive = true;
 		return 0;
 	}
@@ -34,7 +34,7 @@ public class Plant extends Entity{
 	public void kill(String reason){
 		log(this.toString() + " was eaten by " + reason);
 		alive = false;
-		setIcon(new File("img/plant_dead.png"));
+		setIcon(new File(Entity.RESOURCE + "plant_dead.png"));
 		move_rest_needed = 15; // turns for respawn
 	}
 }
