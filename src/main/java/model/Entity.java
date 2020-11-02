@@ -38,6 +38,7 @@ public abstract class Entity{
 		return alive;
 	}
 
+	@SuppressWarnings({})
 	public void addFood(int food){
 		this.food += food;
 	}

@@ -32,7 +32,7 @@ public class Game{
 		input.add(field_height);
 		input.add(new JLabel("duracion: "));
 		input.add(field_duration);
-		int width = 5, height = 5, duration;
+		int width, height, duration;
 		JOptionPane.showMessageDialog(null, input, "Simulador de Vida Salvaje", JOptionPane.INFORMATION_MESSAGE);
 		while(true){
 			try{
@@ -45,10 +45,10 @@ public class Game{
 				JOptionPane.showMessageDialog(null, input, "Simulador de Vida Salvaje", JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
-		width = (width < 10) ? 10 : width;
-		height = (height < 10) ? 10 : height;
-		width = (width > 50) ? 50 : width;
-		height = (height > 50) ? 50 : height;
+		width = Math.max(width, 10);
+		height = Math.max(height, 10);
+		width = Math.min(width, 50);
+		height = Math.min(height, 50);
 		duration = (duration < 0) ? 99999 : duration;
 		JOptionPane.showMessageDialog(null, "Utilice click derecho para agregar animales", "Simulador de Vida Salvaje", JOptionPane.INFORMATION_MESSAGE);
 		new Game(width, height, duration);

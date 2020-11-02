@@ -150,9 +150,9 @@ public class State implements Cloneable{
 		save();
 		ID++;
 		for(Entity entity : entities){
-			inner:for(int attempt = 0;attempt < MAX_MOVE_ATTEMPT;attempt++){
+			for(int attempt = 0;attempt < MAX_MOVE_ATTEMPT;attempt++){
 				if(setEntityPos(entity, entity.move())){
-					break inner; // aka continue outer
+					break; // aka continue outer
 				}
 			}
 		}
@@ -244,7 +244,7 @@ public class State implements Cloneable{
 
 	private State copy_state(){
 		State copy = new State(MAX_DURATION);
-		copy.entities = new ArrayList<Entity>();
+		copy.entities = new ArrayList<>();
 		copy.grid = new Entity[Controller.MAX_X][Controller.MAX_Y];
 		for(Entity ent : entities){
 			copy.entities.add(ent.copy_entity());

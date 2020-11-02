@@ -2,5 +2,5 @@ package model;
 
 public interface Observer{
 
-	public void onUpdate(Entity[][] state);
+	void onUpdate(Entity[][] state);
 }

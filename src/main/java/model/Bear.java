@@ -32,7 +32,7 @@ public class Bear extends Entity{
 		}
 		if(check_surroundings()) return 0;
 		int[] dest = Controller.getCurrentState().getClosestEntityType(Entity.TYPE_PLANT, getX(), getY());
-		if(dest[0] == -1 && dest[1] == -1) return (new Random().nextInt((8 - 0) + 1));
+		if(dest[0] == -1 && dest[1] == -1) return (new Random().nextInt(9));
 		int dir = Entity.pathfind(getX(), getY(), dest[0], dest[1]);
 		move_cooldown += move_rest_needed;
 		if(check_surroundings()) return 0;

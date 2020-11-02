@@ -57,7 +57,7 @@ public class Fluffy extends Entity{
 	}
 
 	@Override
-	public void kill(String reason){
-		return;
+	public void kill(String reason) {
+
 	}
 }
