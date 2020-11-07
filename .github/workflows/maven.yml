@@ -6,8 +6,13 @@ name: Java CI with Maven
 on:
   push:
     branches: [ master ]
+    paths-ignore:
+      - 'targets/**'
+
   pull_request:
     branches: [ master ]
+    paths-ignore:
+      - 'targets/**'
 
 jobs:
   build:
@@ -31,17 +36,17 @@ jobs:
       with:
         java-version: 1.8
     #Step de carga de resultado previo
-    - name: Download a single artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: checkstyle-result.xml
+#    - name: Download a single artifact
+#      uses: actions/download-artifact@v2
+#      with:
+#        name: checkstyle-result.xml
 
     #Step de obtención de la cantidad de errores anteriores
-    - name: Get previous value
-      shell: bash
-      run: |
-        previous_errors=$(cat target/checkstyle-result.xml | grep error | wc -l)
-        echo Numbers of error = $previous_errors
+#    - name: Get previous value
+#      shell: bash
+#      run: |
+#        previous_errors=$(cat target/checkstyle-result.xml | grep error | wc -l)
+#        echo Numbers of error = $previous_errors
 
     #Step de creacion de nuevo reporte
     - name: CheckStyle with Maven
@@ -51,14 +56,8 @@ jobs:
         path: '**/checkstyle-result.xml'
 
     #Step de subida de nuevo reporte
-    #TODO Tomar un caso por default si no existe el artefacto previo o no se encuentra
     - run: mkdir staging && cp target/checkstyle-result.xml staging
     - uses: actions/upload-artifact@v2
       with:
         name: checkstyle-result.xml
         path: staging
-
-
-
-  #PMD:
-  #  need: [build,checkStyle]
