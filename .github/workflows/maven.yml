@@ -51,9 +51,9 @@ jobs:
     #Step de creacion de nuevo reporte
     - name: CheckStyle with Maven
       run: mvn -B verify checkstyle:checkstyle
-    - uses: jwgmeligmeyling/checkstyle-github-action@master
-      with:
-        path: '**/checkstyle-result.xml'
+    #- uses: jwgmeligmeyling/checkstyle-github-action@master
+    #  with:
+    #    path: '**/checkstyle-result.xml'
 
     #Step de subida de nuevo reporte
     - run: mkdir staging && cp target/checkstyle-result.xml staging
@@ -62,8 +62,8 @@ jobs:
         name: checkstyle-result.xml
         path: staging
 
-    - name: Get cantidad de errores value
-      shell: bash
-      run: |
-        previous_errors=$(cat target/checkstyle-result.xml | grep error | wc -l)
-        echo Numbers of error = $previous_errors
+#    - name: Get cantidad de errores value
+#      shell: bash
+#      run: |
+#        previous_errors=$(cat target/checkstyle-result.xml | grep error | wc -l)
+#        echo Numbers of error = $previous_errors
