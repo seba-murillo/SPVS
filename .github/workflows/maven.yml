@@ -32,6 +32,11 @@ jobs:
         java-version: 1.8
     - name: CheckStyle
       run: mvn checkstyle:checkstyle
+    - name: Print the final result
+      shell: bash
+      run: |
+        errors=$(cat target/checkstyle-result.xml | grep error | wc -l)
+        echo Numbers of error = $errors
 
 
 
