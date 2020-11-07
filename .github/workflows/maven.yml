@@ -37,10 +37,11 @@ jobs:
       run: |
         errors=$(cat target/checkstyle-result.xml | grep error | wc -l)
         echo Numbers of error = $errors
+    #Tomar un caso por default si no existe el artefacto previo o no se encuentra
     - run: mkdir staging && cp target/checkstyle-result.xml staging
     - uses: actions/upload-artifact@v2
       with:
-        name: Package
+        name: checkstyle-result.xml
         path: staging
 
 
