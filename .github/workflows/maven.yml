@@ -61,3 +61,9 @@ jobs:
       with:
         name: checkstyle-result.xml
         path: staging
+
+    - name: Get cantidad de errores value
+      shell: bash
+      run: |
+        previous_errors=$(cat target/checkstyle-result.xml | grep error | wc -l)
+        echo Numbers of error = $previous_errors
