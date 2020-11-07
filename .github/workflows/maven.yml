@@ -55,7 +55,7 @@ jobs:
     #  with:
     #    path: '**/checkstyle-result.xml'
 
-    #Step de subida de nuevo reporte
+    #Step de artifacts para el reporte html
     - run: mkdir staging && cp -r target/site staging
     - uses: actions/upload-artifact@v2
       with:
