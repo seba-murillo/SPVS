@@ -30,14 +30,28 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-    - name: CheckStyle
-      run: mvn checkstyle:checkstyle
-    - name: Print the final result
+    #Step de carga de resultado previo
+    - name: Download a single artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: checkstyle-result.xml
+
+    #Step de obtención de la cantidad de errores anteriores
+    - name: Get previous value
       shell: bash
       run: |
-        errors=$(cat target/checkstyle-result.xml | grep error | wc -l)
-        echo Numbers of error = $errors
-    #Tomar un caso por default si no existe el artefacto previo o no se encuentra
+        previous_errors=$(cat target/checkstyle-result.xml | grep error | wc -l)
+        echo Numbers of error = $previous_errors
+
+    #Step de creacion de nuevo reporte
+    - name: CheckStyle with Maven
+      run: mvn -B verify checkstyle:checkstyle
+    - uses: jwgmeligmeyling/checkstyle-github-action@master
+      with:
+        path: '**/checkstyle-result.xml'
+
+    #Step de subida de nuevo reporte
+    #TODO Tomar un caso por default si no existe el artefacto previo o no se encuentra
     - run: mkdir staging && cp target/checkstyle-result.xml staging
     - uses: actions/upload-artifact@v2
       with:
