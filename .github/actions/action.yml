@@ -1,3 +1,8 @@
+
+name: Custom Actions
+
+description: Ver qué hace
+
 inputs:
   numOctocats:
     description: 'Number of Octocats'
@@ -6,4 +11,8 @@ inputs:
   octocatEyeColor:
     description: 'Eye color of the Octocats'
     required: true
+
+runs:
+  using: node12
+  main: 'main.js'
 
