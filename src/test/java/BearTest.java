@@ -1,11 +1,7 @@
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Assertions;
-import controller.Controller;
-import model.Game;
-import model.Plant;
-import model.Rabbit;
-import model.State;
+
 import model.Bear;
 
 public class BearTest {
