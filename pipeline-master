@@ -45,7 +45,7 @@ pipeline {
             }
         }
 
-        stage('Find Bugs') {
+        stage('Report') {
             steps {
                 sh 'mvn surefire-report:report'
             }
