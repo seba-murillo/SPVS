@@ -1,0 +1,46 @@
+properties([pipelineTriggers([githubPush()])])
+
+pipeline {
+    agent {
+        label 'master'
+    }
+
+    stages {
+
+        stage('Build') {
+            steps {
+                sh ' echo Build Stage'
+            }
+        }
+        
+        stage('CheckStyle') {
+            steps {
+                sh 'mvn -B verify checkstyle:checkstyle'
+            }
+        }
+        
+        stage('PMD') {
+            steps {
+                sh 'echo PMD Stage'
+            }
+        }
+        
+        stage('PMD_CPD') {
+            steps {
+                sh  'echo PMD_CPD Stage'
+            }
+        }
+        
+        stage('Find Bugs') {
+            steps {
+                echo 'Find Bugs'
+            }
+        }
+        
+        stage('Unit Test') {
+            steps {
+                echo 'Unit Test Stage'
+            }
+        }
+    }
+}

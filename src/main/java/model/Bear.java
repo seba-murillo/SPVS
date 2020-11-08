@@ -5,11 +5,11 @@ import java.util.Random;
 import controller.Controller;
 
 
-public class Bear extends Entity{
+public class Bear extends Entity {
 
 	private static int count = 1;
 
-	public Bear(){
+	public Bear() {
 		this("Bear " + count++);
 	}
 
@@ -22,6 +22,7 @@ public class Bear extends Entity{
 	@Override
 	public int move(){
 		if(!alive) return 0;
+		//TODO khé ???
 		move_cooldown -= 1;
 		if(move_cooldown > 0) return 0;
 		// move
@@ -63,8 +64,10 @@ public class Bear extends Entity{
 
 	@Override
 	public void kill(String reason){
+		//TODO podría darse como tipo ENUM los motivos
 		if("starvation".equals(reason)) log(this.toString() + " died from starvation");
 		else
+			//TODO Encapsular lógica de motivo en una clase {Forma de morir, agente que lo hizo}
 			log(this.toString() + " was eaten by " + reason);
 		food = -1;
 		alive = false;

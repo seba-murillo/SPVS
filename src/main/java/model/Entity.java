@@ -7,9 +7,9 @@ import javax.imageio.ImageIO;
 
 
 public abstract class Entity{
-
-	public static final String RESOURCE = "src/main/resources/images/";
-
+	//TODO ver si corresponde acoplar la lóigica de imágenes en Entidad
+	public static final String RESOURCE = "resources/images/";
+	//TODO debería ser función de view lo de manejo de imágenes
 	public static final File FILE_DEAD = new File(Entity.RESOURCE + "skull.png");
 
 	public static final int	INEX		= -1;
