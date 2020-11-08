@@ -12,7 +12,6 @@ import view.Screen;
 public class Game{
 
 	public static final boolean debug = false;
-	
 	private static boolean started = false;
 
 	public static void main(String[] args){

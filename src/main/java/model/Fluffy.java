@@ -40,6 +40,7 @@ public class Fluffy extends Entity{
 			}
 		}
 		// print surroundings
+		/*
 		log("\n\n");
 		log("fluffy is @ (" + getX() + ", " + getY() + ")");
 		for(int x = 0;x < 3;x++){
@@ -47,6 +48,7 @@ public class Fluffy extends Entity{
 				log("surr[" + x + "][" + y + "]: " + surr[x][y]);
 			}
 		}
+		*/
 	}
 
 	private int move_fluffy(){

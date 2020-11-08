@@ -10,7 +10,7 @@ import model.Tree;
 import model.Wolf;
 
 
-class FullSysTest{
+class TestFullEntities {
 
 	@Test
 	void test(){
