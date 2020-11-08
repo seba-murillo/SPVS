@@ -35,7 +35,7 @@ pipeline {
         
         stage('Find Bugs') {
             steps {
-                echo 'mvn FindBugs:FindBugs'
+                sh 'mvn FindBugs:FindBugs'
             }
         }
         
