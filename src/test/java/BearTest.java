@@ -15,7 +15,6 @@ public class BearTest {
     public void setUp(){
         bear = new Bear("bearUnderTest");
     }*/
-
     @Test
     public void When_BearHaveBeenEaten_Then_IsDead(){
         //Given
