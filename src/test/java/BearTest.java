@@ -15,7 +15,7 @@ public class BearTest {
     public void setUp(){
         bear = new Bear("bearUnderTest");
     }*/
-
+    // TODO ver si funca el hook up
     @Test
     public void When_BearHaveBeenEaten_Then_IsDead(){
         //Given
