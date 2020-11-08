@@ -35,7 +35,7 @@ pipeline {
         
         stage('Find Bugs') {
             steps {
-                sh 'mvn findbugs:findbugs'
+                sh 'mvn findbugs:findbugs -X'
             }
         }
         
