@@ -36,6 +36,7 @@
                         </goals>
                         <configuration>
                             <failOnViolation>true</failOnViolation>
+                            <violationSeverity>warning</violationSeverity>
                             <!--configLocation>/path</configLocation-->
                             <maxAllowedViolations>1000</maxAllowedViolations>
                         </configuration>
