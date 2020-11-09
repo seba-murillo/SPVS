@@ -57,8 +57,8 @@ pipeline {
             //junit testResults: '**/target/surefire-reports/TEST-*.xml'
             //junit testResults: '**/target/TEST-*.xml'
             recordIssues enabledForFailure: true, tools: [mavenConsole(), java(), javaDoc()]
-            //recordIssues enabledForFailure: true, tool: checkStyle()
-            recordIssues(tools: [checkStyle(reportEncoding: 'UTF-8', maxAllowedViolations: 1000)])
+            recordIssues enabledForFailure: true, tool: checkStyle()
+            //recordIssues(tools: [checkStyle(reportEncoding: 'UTF-8', maxAllowedViolations: 1000)])
             recordIssues enabledForFailure: true, tool: spotBugs()
             recordIssues enabledForFailure: true, tool: cpd(pattern: '**/target/cpd.xml')
             recordIssues enabledForFailure: true, tool: pmdParser(pattern: '**/target/pmd.xml')
