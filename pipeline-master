@@ -27,10 +27,7 @@ pipeline {
                     echo previous_warnings.toString()
                     if(new_warnings>previous_warnings)
                     {
-                        echo "Mayor"
-                    }
-                    else{
-                        echo "menor"
+                        error('Ejecución fallida por aumento de warnings')
                     }
                 }
                 //sh 'mvn -B verify checkstyle:checkstyle'
