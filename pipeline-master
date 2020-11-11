@@ -23,7 +23,8 @@ pipeline {
                         script: 'mvn -B verify checkstyle:checkstyle')
                     def new_warnings = sh(returnStdout: true,
                         script: 'cat target/checkstyle-result.xml | grep error | wc -l').trim().toInteger()
-
+                    echo new_warnings
+                    echo previous_warnings
                     if(new_warnings>previous_warnings)
                     {
                         echo "Mayor"
