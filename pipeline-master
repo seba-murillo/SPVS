@@ -9,7 +9,6 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'mvn clean'
                 sh 'mvn install'
             }
         }
@@ -17,6 +16,11 @@ pipeline {
         stage('CheckStyle') {
             steps {
                 //mvn checkstyle:check
+                previous_warnings= sh(returnStdout: true,
+                    script: 'cat target/checkstyle-result.xml | grep error | wc -l').trim().toInteger()
+
+                echo previous_warnings
+
                 sh 'mvn -B verify checkstyle:checkstyle'
             }
         }
