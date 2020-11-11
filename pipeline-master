@@ -16,12 +16,16 @@ pipeline {
         stage('CheckStyle') {
             steps {
                 //mvn checkstyle:check
-                def previous_warnings= sh(returnStdout: true,
-                    script: 'cat target/checkstyle-result.xml | grep error | wc -l').trim().toInteger()
-
-                echo previous_warnings
-
-                sh 'mvn -B verify checkstyle:checkstyle'
+                script{
+                    def previous_warnings= sh(returnStdout: true,
+                        script: 'cat target/checkstyle-result.xml | grep error | wc -l').trim().toInteger()
+                    sh(returnStdout: true,
+                        script: 'mvn -B verify checkstyle:checkstyle')
+                    def new_warnings = sh(returnStdout: true,
+                        script: 'cat target/checkstyle-result.xml | grep error | wc -l').trim().toInteger()
+                    assert new_warnings<=previous_warnings : "Se agregaron nuevos warnings"
+                }
+                //sh 'mvn -B verify checkstyle:checkstyle'
             }
         }
         
