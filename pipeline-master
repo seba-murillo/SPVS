@@ -23,7 +23,14 @@ pipeline {
                         script: 'mvn -B verify checkstyle:checkstyle')
                     def new_warnings = sh(returnStdout: true,
                         script: 'cat target/checkstyle-result.xml | grep error | wc -l').trim().toInteger()
-                    assert new_warnings<=previous_warnings : "Se agregaron nuevos warnings"
+
+                    if(new_warnings>previous_warnings)
+                    {
+                        echo "Mayor"
+                    }
+                    else{
+                        echo "menor"
+                    }
                 }
                 //sh 'mvn -B verify checkstyle:checkstyle'
             }
