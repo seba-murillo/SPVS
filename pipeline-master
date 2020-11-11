@@ -16,7 +16,7 @@ pipeline {
         stage('CheckStyle') {
             steps {
                 //mvn checkstyle:check
-                previous_warnings= sh(returnStdout: true,
+                def previous_warnings= sh(returnStdout: true,
                     script: 'cat target/checkstyle-result.xml | grep error | wc -l').trim().toInteger()
 
                 echo previous_warnings
