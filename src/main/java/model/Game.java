@@ -15,10 +15,6 @@ public class Game{
 	private static boolean started = false;
 
 	public static void main(String[] args){
-		if(debug){
-			new Game(10, 10, 10);
-			return;
-		}
 		JTextField field_width = new JTextField(3);
 		JTextField field_height = new JTextField(3);
 		JTextField field_duration = new JTextField(3);
@@ -62,8 +58,10 @@ public class Game{
 	}
 	
 	public static void start(int width, int height, int duration) {
+		/*
 		if(started) return;
 		started = true;
+		*/
 		new Game(width, height, duration);
 	}
 

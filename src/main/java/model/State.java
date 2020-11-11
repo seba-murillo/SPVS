@@ -35,6 +35,11 @@ public class State implements Cloneable{
 		}
 	}
 
+	public static void reset(){
+		current = null;
+		new State(1000);
+	}
+
 	public boolean addEntity(Entity entity, int x, int y){
 		//log("adding " + entity + " to pos (" + x + ", " + y + ")");
 		if(!setEntityPos(entity, x, y)) return false;

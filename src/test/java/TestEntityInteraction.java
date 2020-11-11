@@ -1,14 +1,21 @@
 import controller.Controller;
 import model.*;
+import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestEntityInteraction {
 
+
+    @BeforeEach
+    void reset() {
+        Game.start(10, 10, -1);
+    }
+
     @Test
     void test_fluffy_movement() {
-        new State(0);
         Fluffy fluffy = new Fluffy();
         for (int pos = 2; pos < 9; pos += 2) {
             assertEquals(fluffy.move(), pos);
@@ -27,7 +34,7 @@ public class TestEntityInteraction {
     @Test
     void test_fluffy_position() {
         int start_pos = 4;
-        Game.start(2 * start_pos + 1, 2 * start_pos + 1, -1);
+        //Game.start(2 * start_pos + 1, 2 * start_pos + 1, -1);
         State state = Controller.getCurrentState();
         Fluffy fluffy = new Fluffy();
         state.addEntity(fluffy, start_pos, start_pos);
@@ -38,10 +45,18 @@ public class TestEntityInteraction {
         assertEquals(fluffy.getY(), start_pos);
     }
 
+    private void delay(int ms){
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Test
     void test_fluffy_attack() {
         int start_pos = 4;
-        Game.start(2 * start_pos + 1, 2 * start_pos + 1, -1);
+        //Game.start(2 * start_pos + 1, 2 * start_pos + 1, -1);
         State state = Controller.getCurrentState();
         Fluffy fluffy = new Fluffy();
         FixedRabbit R1 = new FixedRabbit();
@@ -78,7 +93,7 @@ public class TestEntityInteraction {
     @Test
     void test_rabbit_vs_plants() {
         int start_pos = 4;
-        Game.start(10, 10, -1);
+        //Game.start(2 * start_pos + 1, 2 * start_pos + 1, -1);
         State state = Controller.getCurrentState();
         Rabbit rabbit = new Rabbit();
         Plant P1 = new Plant();
@@ -103,11 +118,11 @@ public class TestEntityInteraction {
     }
 
     @Test
-    void test_wolf_vs_rabbits(){
-        Game.start(10, 10, -1);
+    void test_wolf_vs_rabbits() {
+        //Game.start(10, 10, -1);
         State state = Controller.getCurrentState();
         Rabbit[] R = new Rabbit[4];
-        for(int i = 0;i < 4;i++){
+        for (int i = 0; i < 4; i++) {
             R[i] = new Rabbit();
         }
         state.addEntity(R[0], 4, 4);
@@ -115,18 +130,18 @@ public class TestEntityInteraction {
         state.addEntity(R[2], 2, 7);
         state.addEntity(R[3], 7, 7);
         state.addEntity(new Wolf(), 8, 8);
-        for(int i = 0;i < 50;i++){
+        for (int i = 0; i < 50; i++) {
             state.tick();
         }
-        for(int i = 0;i < 4;i++){
+        for (int i = 0; i < 4; i++) {
             assertFalse(R[i].isAlive());
         }
     }
 
     @Test
-    void test_wolf_vs_fixed_rabbits(){
+    void test_wolf_vs_fixed_rabbits() {
         int start_pos = 4;
-        Game.start(10, 10, -1);
+        //Game.start(10, 10, -1);
         State state = Controller.getCurrentState();
         Wolf wolf = new Wolf();
         FixedRabbit[] R = new FixedRabbit[4];
@@ -139,11 +154,11 @@ public class TestEntityInteraction {
         state.addEntity(R[1], 9, 0);
         state.addEntity(R[2], 9, 9);
         state.addEntity(R[3], 0, 9);
-        for(int i = 0;i < 50;i++){
+        for (int i = 0; i < 50; i++) {
             state.tick();
             State.update_observers();
         }
-        for(int i = 0;i < 3;i++){
+        for (int i = 0; i < 3; i++) {
             assertFalse(R[i].isAlive());
         }
     }
