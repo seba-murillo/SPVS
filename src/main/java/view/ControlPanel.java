@@ -18,15 +18,13 @@ public class ControlPanel extends JPanel implements ActionListener{
 	private static final String	STR_PREV	= "⧏";
 	private static final String	STR_NEXT	= "⧐";
 
-	private JButton	btn_play	= new JButton(STR_PAUSE);
+	private JButton	btn_play	= new JButton(STR_PLAY);
 	private JButton	btn_prev	= new JButton(STR_PREV);
 	private JButton	btn_next	= new JButton(STR_NEXT);
 
 	public ControlPanel(){
 		super();
-		//Game.log("ControlPanel created\n");
 		setLayout(new FlowLayout());
-		if(Updater.start_ON == false) btn_play.setText(STR_PLAY);
 		add(btn_prev);
 		add(btn_play);
 		add(btn_next);
@@ -42,7 +40,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e){
 		if(e.getSource() == btn_play){
-			if(STR_PLAY.equals(btn_play.getText())){ // play
+			if(STR_PLAY.equals(btn_play.getText())){
 				btn_play.setText(STR_PAUSE);
 				btn_play.setBackground(Color.RED);
 				Updater.play();
@@ -56,10 +54,10 @@ public class ControlPanel extends JPanel implements ActionListener{
 			}
 		}
 		else if(e.getSource() == btn_prev){
-			State.loadLast();
+			State.prev();
 		}
 		else if(e.getSource() == btn_next){
-			State.nextState();
+			State.next();
 		}
 	}
 }

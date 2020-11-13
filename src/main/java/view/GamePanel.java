@@ -2,6 +2,8 @@ package view;
 
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.util.HashSet;
+import java.util.List;
 import javax.swing.JPanel;
 import model.Entity;
 import model.Observer;
@@ -24,17 +26,10 @@ public class GamePanel extends JPanel implements Observer{
 			}
 		}
 		setLayout(new GridLayout(width, height));
-		State.register_observer(this);
+		State.register(this);
 		//addMouseListener(this);
 		log("GamePanel created\n");
 	}
-
-	/*
-	@Override
-	public Dimension getPreferredSize(){
-		return new Dimension(Game.MAX_X * width, Game.MAX_Y * height);
-	}
-	*/
 
 	public static void log(Object message){
 		System.out.print(message.toString());
@@ -46,16 +41,18 @@ public class GamePanel extends JPanel implements Observer{
 	}
 
 	@Override
-	public void onUpdate(Entity[][] state){
+	public void update(){
+		Entity[][] grid = State.getGrid();
+		List<Entity> entities = State.getEntities();
 		for(int x = 0;x < panels.length;x++){
 			for(int y = 0;y < panels[0].length;y++){
-				if(state[x][y] == null){
+				if(grid[x][y] == null){
 					panels[x][y].setIcon(null);
 					panels[x][y].setToolTipText(null);
 					continue;
 				}
-				panels[x][y].setIcon(state[x][y].getIcon());
-				panels[x][y].setToolTipText(state[x][y].getInfo());
+				panels[x][y].setIcon(grid[x][y].getIcon());
+				panels[x][y].setToolTipText(grid[x][y].getInfo());
 			}
 		}
 		repaint();
@@ -79,25 +76,21 @@ public class GamePanel extends JPanel implements Observer{
 	
 	@Override
 	public void mouseEntered(MouseEvent arg0){
-		// TODO Auto-generated method stub
 		
 	}
 	
 	@Override
 	public void mouseExited(MouseEvent arg0){
-		// TODO Auto-generated method stub
 		
 	}
 	
 	@Override
 	public void mousePressed(MouseEvent arg0){
-		// TODO Auto-generated method stub
 		
 	}
 	
 	@Override
 	public void mouseReleased(MouseEvent arg0){
-		// TODO Auto-generated method stub
 		
 	}
 	*/

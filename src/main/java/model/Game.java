@@ -11,8 +11,14 @@ import view.Screen;
 
 public class Game{
 
-	public static final boolean debug = false;
-	private static boolean started = false;
+	public static final boolean DEBUG = false;
+	private static final int DEFAULT_DURATION = 1000;
+	private static final int MIN_WIDTH = 10;
+	private static final int MAX_WIDTH = 50;
+	private static final int MIN_HEIGHT = 10;
+	private static final int MAX_HEIGHT = 30;
+
+	private static Game current = null;
 
 	public static void main(String[] args){
 		JTextField field_width = new JTextField(3);
@@ -40,37 +46,29 @@ public class Game{
 				JOptionPane.showMessageDialog(null, input, "Simulador de Vida Salvaje", JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
-		width = Math.max(width, 10);
-		height = Math.max(height, 10);
-		width = Math.min(width, 50);
-		height = Math.min(height, 50);
-		duration = (duration < 0) ? 99999 : duration;
+		// check min/max width
+		width = Math.max(width, MIN_WIDTH);
+		width = Math.min(width, MAX_WIDTH);
+		// check min/max height
+		height = Math.max(height, MIN_HEIGHT);
+		height = Math.min(height, MAX_HEIGHT);
+		// check valid duration
+		duration = (duration < 0) ? DEFAULT_DURATION : duration;
+		// small 'help'
 		JOptionPane.showMessageDialog(null, "Utilice click derecho para agregar animales", "Simulador de Vida Salvaje", JOptionPane.INFORMATION_MESSAGE);
-		new Game(width, height, duration);
+		Game.start(width, height, duration);
 	}
 
 	private Game(int width, int height, int duration){
 		Controller.MAX_Y = width;
 		Controller.MAX_X = height;
-		new State(duration);
-		new Screen(width, height);
-		new Updater();
+		State.initialize(width, height, duration);
+		Screen.create(width, height);
 	}
 	
-	public static void start(int width, int height, int duration) {
-		/*
-		if(started) return;
-		started = true;
-		*/
-		new Game(width, height, duration);
+	public static Game start(int width, int height, int duration) {
+		if(current != null) return current;
+		current = new Game(width, height, duration);
+		return current;
 	}
-
-	public static void error(Object message){
-		System.err.print(message.toString());
-	}
-
-	public static void log(Object message){
-		System.out.println(message.toString());
-	}
-
 }

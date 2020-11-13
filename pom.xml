@@ -52,14 +52,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <reportSets>
-                    <reportSet>
-                        <reports>
-                            <!-- TODO: read on JaCoCo reports -->
-                            <report>report</report>
-                        </reports>
-                    </reportSet>
-                </reportSets>
+                <version>0.8.2</version>
             </plugin>
         </plugins>
     </reporting>

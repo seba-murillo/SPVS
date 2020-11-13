@@ -14,8 +14,8 @@ class TestFullEntities {
 
 	@Test
 	void test(){
-		Game.start(30, 30, -1);
-		State state = Controller.getCurrentState();
+		Game.start(30, 30, 999);
+		State state = State.getCurrent();
 		state.addEntity(new Stone(), 3, 4);
 		state.addEntity(new Stone(), 4, 3);
 		state.addEntity(new Stone(), 4, 4);
@@ -114,7 +114,7 @@ class TestFullEntities {
 		// bear
 		state.addEntity(new Bear(), 19, 22);
 		for(int i = 0;i < 10;i++){
-			state.tick();
+			State.next();
 			try{
 				Thread.sleep(1000);
 			}

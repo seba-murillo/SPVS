@@ -1,26 +1,27 @@
 package view;
 
+import model.Observer;
+import model.State;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalTime;
 import javax.imageio.ImageIO;
-import javax.swing.BoxLayout;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 
 public class Screen{
 
 	public static boolean showGrid = true;
 
-	private static final JFrame frame = new JFrame("Simulador de Vida Salvaje");
+	private static JFrame frame = null;
 
 	private static JPanel	board;
 	private static JPanel	control;
 
-	public Screen(int width, int height){
-		// TODO Auto-generated constructor stub
+	private Screen(int width, int height){
+		frame = new JFrame("Simulador de Vida Salvaje");
 		frame.setLocationRelativeTo(null); // center
 		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
 		//setUndecorated(true);
@@ -32,8 +33,11 @@ public class Screen{
 		frame.add(control);
 		frame.pack();
 		frame.setVisible(true);
-		//Game.log("Screen created\n");
-		//screenshot();
+	}
+
+
+	public static Screen create(int width, int height){
+		return new Screen(width, height);
 	}
 
 	public static void draw(){
@@ -64,18 +68,14 @@ public class Screen{
 			e.printStackTrace();
 		}
 	}
-	/*
-	public static void screenshot() {
-		LocalTime time = LocalTime.now();
-		String filename = String.format("screenshot_v2_%d-%d-%d.png", time.getHour(), time.getMinute(), time.getSecond());
-		try{
-			Robot robot = new Robot();
-			BufferedImage Image = robot.createScreenCapture(frame.getBounds());
-			ImageIO.write(Image, "png", new File(filename));
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-		}
+
+	public static void showEndScreen(int duration) {
+		JPanel message = new JPanel();
+		message.add(new JLabel("Simulacion terminada (" + duration + " turnos)"));
+		JOptionPane.showMessageDialog(null, message, "Simulador de Vida Salvaje", JOptionPane.INFORMATION_MESSAGE);
 	}
-	*/
+	
+	public static void updateTitle(int id){
+		frame.setTitle(String.format("SPVS - [%d]", id));
+	}
 }

@@ -1,45 +1,27 @@
 package model;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.Timer;
-import controller.Controller;
+
+import java.util.TimerTask;
+import java.util.Timer;
 
 
-public class Updater implements ActionListener{
+public abstract class Updater {
 
-	public static boolean		start_ON	= false;
-	private static final int	DELAY		= 250;
+    private static final int DELAY = 500;
+    private static Timer timer;
 
-	private static boolean	RUN	= true;
-	private static Updater	updater;
 
-	Timer update_timer = new Timer(DELAY, this);
+    public static void play() {
+        TimerTask task = new TimerTask() {
+            public void run() {
+                State.next();
+            }
+        };
+        timer = new Timer("Timer");
+        timer.schedule(task, DELAY, DELAY);
+    }
 
-	public Updater(){
-		Updater.updater = this;
-		update_timer.setRepeats(false);
-		if(start_ON) Updater.play();
-	}
-
-	public static void play(){
-		//updater.update_timer.start();
-		RUN = true;
-		updater.update();
-	}
-
-	public static void pause(){
-		RUN = false;
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e){
-		if(!RUN) return;
-		update();
-	}
-
-	private void update(){
-		Controller.getCurrentState().tick();
-		if(!State.done) update_timer.start();
-	}
+    public static void pause() {
+        timer.cancel();
+    }
 }

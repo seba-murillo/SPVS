@@ -18,10 +18,8 @@ public class TestEntityPlacement {
 
     @Test
     void test_invalid_placement() {
-        Controller.MAX_X = 10;
-        Controller.MAX_Y = 10;
-        State state = new State(0);
-        //
+        Game.start(10, 10, 999);
+        State state = State.getCurrent();
         assertFalse(state.addEntity(new Rabbit(), -5, -9));
         assertFalse(state.addEntity(new Plant(), -5, 2));
         assertFalse(state.addEntity(new Stone(), 1, 999));
@@ -30,9 +28,8 @@ public class TestEntityPlacement {
 
     @Test
     void test_valid_placement() {
-        Controller.MAX_X = 10;
-        Controller.MAX_Y = 10;
-        State state = new State(0);
+        Game.start(10, 10, 999);
+        State state = State.getCurrent();
         assertTrue(state.addEntity(new Plant(), 0, 0));
         assertTrue(state.addEntity(new Tree(), 1, 1));
         assertTrue(state.addEntity(new Stone(), 2, 2));
@@ -43,9 +40,8 @@ public class TestEntityPlacement {
 
     @Test
     void test_duplicate_placement() {
-        Controller.MAX_X = 10;
-        Controller.MAX_Y = 10;
-        State state = new State(0);
+        Game.start(10, 10, 999);
+        State state = State.getCurrent();
         assertTrue(state.addEntity(new Rabbit(), 0, 0));
         assertFalse(state.addEntity(new Rabbit(), 0, 0));
         assertFalse(state.addEntity(new Stone(), 0, 0));
@@ -54,8 +50,8 @@ public class TestEntityPlacement {
     @Test
     void test(){
         int start_pos = 3;
-        Game.start(2 * start_pos + 1, 2 * start_pos + 1, -1);
-        State state = Controller.getCurrentState();
+        Game.start(2 * start_pos + 1, 2 * start_pos + 1, 999);
+        State state = State.getCurrent();
         Fluffy fluffy = new Fluffy();
         state.addEntity(fluffy, start_pos, start_pos);
         Entity P1 = new Plant();
@@ -74,7 +70,9 @@ public class TestEntityPlacement {
         state.addEntity(T2, start_pos + 1, start_pos + 1);
         state.addEntity(R1, start_pos - 1, start_pos - 1);
         state.addEntity(R2, start_pos + 1, start_pos - 1);
-        Entity[][] surroundings = Controller.getCurrentState().getSurroundings(fluffy.getX(), fluffy.getY());
+        Entity[][] surroundings = new Entity[0][];
+        //Entity[][] surroundings = Controller.getCurrentState().getSurroundings(fluffy.getX(), fluffy.getY());
+        //fluffy.getSurroundings();
         assertEquals(surroundings[0][0], R1);
         assertEquals(surroundings[0][1], S1);
         assertEquals(surroundings[0][2], T1);

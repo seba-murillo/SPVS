@@ -6,7 +6,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 
-public abstract class Entity{
+public abstract class Entity implements Cloneable{
 	//TODO ver si corresponde acoplar la lóigica de imágenes en Entidad
 	public static final String RESOURCE = "resources/images/";
 	//TODO debería ser función de view lo de manejo de imágenes
@@ -146,51 +146,17 @@ public abstract class Entity{
 		setIcon(Entity.FILE_DEAD);
 	}
 
-	public Entity copy_entity(){
-		Entity entity;
-		switch(this.type){
-			case TYPE_STONE:{
-				entity = new Stone();
-				break;
-			}
-			case TYPE_PLANT:{
-				entity = new Plant();
-				break;
-			}
-			case TYPE_TREE:{
-				entity = new Tree();
-				break;
-			}
-			case TYPE_RABBIT:{
-				entity = new Rabbit();
-				break;
-			}
-			case TYPE_WOLF:{
-				entity = new Wolf();
-				break;
-			}
-			case TYPE_BEAR:{
-				entity = new Bear();
-				break;
-			}
-			default:{
-				return null;
-			}
-		}
-		entity.X = this.X;
-		entity.Y = this.Y;
-		entity.name = this.name;
-		entity.type = this.type;
-		entity.icon = this.icon;
-		entity.food = this.food;
-		entity.move_rest_needed = this.move_rest_needed;
-		entity.move_cooldown = this.move_cooldown;
-		entity.alive = this.alive;
-		return entity;
+	public String getInfo(){
+		return "<html>" + name + ":<br />comida: " + food + "<br />vivo: " + alive;
 	}
 
-	public String getInfo(){
-		String tooltip = "<html>" + name + ":<br />comida: " + food + "<br />vivo: " + alive;
-		return tooltip;
+	public Entity copy(){
+		Entity copy = null;
+		try {
+			copy = (Entity) this.clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		return copy;
 	}
 }
