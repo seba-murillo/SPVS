@@ -19,8 +19,7 @@ public class Stone extends Entity{
 	}
 
 	@Override
-	public int move(){
-		return 0;
+	public void move(){
 	}
 
 	@Override

@@ -20,15 +20,14 @@ public class Plant extends Entity{
 
 	// plant respawns after 8 days
 	@Override
-	public int move(){
-		if(alive) return 0;
+	public void move(){
+		if(alive) return;
 		if(move_rest_needed > 0){
 			move_rest_needed--;
-			return 0;
+			return;
 		}
 		setIcon(new File(Entity.RESOURCE + "plant.png"));
 		alive = true;
-		return 0;
 	}
 
 	@Override

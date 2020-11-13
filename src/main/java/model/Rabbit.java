@@ -1,6 +1,7 @@
 package model;
 
 import java.io.File;
+import java.util.List;
 import java.util.Random;
 
 public class Rabbit extends Entity{
@@ -25,23 +26,20 @@ public class Rabbit extends Entity{
 	 *       +
 	 */
 	@Override
-	public int move(){
-		if(!alive) return 0;
-		move_cooldown -= 1;
-		if(move_cooldown > 0) return 0;
-		// move
-		food--;
-		if(food < 0){
+	public void move(){
+		if(!alive) return;
+		if(--move_cooldown > 0) return;
+		if(--food < 0){
 			this.kill("starvation");
-			return 0;
+			return;
 		}
-		if(check_surroundings()) return 0;
-		int[] dest = State.getCurrent().getClosestEntityType(Entity.TYPE_PLANT, getX(), getY());
-		if(dest[0] == -1 && dest[1] == -1) return (new Random().nextInt(9));
-		int dir = Entity.pathfind(getX(), getY(), dest[0], dest[1]);
-		move_cooldown += move_rest_needed;
-		if(check_surroundings()) return 0;
-		return getRandom(dir);
+		Entity[][] nearby = State.getCurrent().getSurroundings(getX(), getY());
+		Entity[][] around = getAvailableSpaces(nearby);
+		int[] dir = findFood(nearby, Entity.TYPE_PLANT);
+		int[] pos = findpath(around, x, y, dir[0], dir[1]);
+		setP(x + pos[0], y +pos[1]);
+		//if(check_surroundings()) return;
+		return;//getRandom(dir);
 	}
 
 	private boolean check_surroundings(){

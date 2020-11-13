@@ -7,35 +7,32 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import javax.swing.*;
+
 import model.*;
 
 
 @SuppressWarnings("serial")
 public class CellPanel extends JPanel implements MouseListener{
 
-	public static final boolean	show_border			= true;
-	public static final boolean	show_events			= false;
-	public static final boolean	show_painting		= false;
-	public static final Color	COLOR_BACKGROUND	= new Color(15, 90, 0);
-	public static final Color	COLOR_BORDER		= Color.BLACK;
-	public static final int		height				= 30;
-	public static final int		width				= 30;
+	public static final boolean show_border = true;
+	public static final boolean show_events = false;
+	public static final boolean show_painting = false;
 
-	private int				x, y;
-	private BufferedImage	img;
+
+	public static final int width = 30;
+	public static final int height = 30;
+
+	private int x, y;
+	private BufferedImage img;
 
 	public CellPanel(int x, int y){
 		super();
-		if(show_border) this.setBorder(BorderFactory.createLineBorder(COLOR_BORDER));
-		setBackground(COLOR_BACKGROUND);
+		if(show_border) this.setBorder(BorderFactory.createLineBorder(Screen.COLOR_BORDER));
+		setBackground(Screen.COLOR_BACKGROUND);
 		img = null;
 		this.x = x;
 		this.y = y;
 		addMouseListener(this);
-	}
-
-	public static void log(Object message){
-		System.out.print(message.toString());
 	}
 
 	public void setIcon(BufferedImage icon){
@@ -74,40 +71,31 @@ public class CellPanel extends JPanel implements MouseListener{
 		Entity entity = state.getEntityAt(x, y);
 		JPopupMenu add_menu = new JPopupMenu("menu");
 		if(entity == null){
-			add_menu.add("add plant").addActionListener(e-> state.addEntity(new Plant(), x, y));
-			add_menu.add("add rabbit").addActionListener(e-> state.addEntity(new Rabbit(), x, y));
-			add_menu.add("add wolf").addActionListener(e-> state.addEntity(new Wolf(), x, y));
-			add_menu.add("add bear").addActionListener(e-> state.addEntity(new Bear(), x, y));
-			add_menu.add("add stone").addActionListener(e-> state.addEntity(new Stone(), x, y));
-			add_menu.add("add tree").addActionListener(e-> state.addEntity(new Tree(), x, y));
-		}
-		else{
-			add_menu.add("remove").addActionListener(e-> state.removeEntityAt(x, y));
+			add_menu.add("add plant").addActionListener(e -> state.addEntity(new Plant(), x, y));
+			add_menu.add("add rabbit").addActionListener(e -> state.addEntity(new Rabbit(), x, y));
+			add_menu.add("add wolf").addActionListener(e -> state.addEntity(new Wolf(), x, y));
+			add_menu.add("add bear").addActionListener(e -> state.addEntity(new Bear(), x, y));
+			add_menu.add("add stone").addActionListener(e -> state.addEntity(new Stone(), x, y));
+			add_menu.add("add tree").addActionListener(e -> state.addEntity(new Tree(), x, y));
+		}else{
+			add_menu.add("remove").addActionListener(e -> state.removeEntityAt(x, y));
 		}
 		add_menu.show(this, 20, 10);
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent arg0){
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void mouseExited(MouseEvent arg0){
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void mousePressed(MouseEvent arg0){
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent arg0){
-		// TODO Auto-generated method stub
-
 	}
 }

@@ -58,7 +58,7 @@ public class NewTest {
         }
 
     }
-
+/*
     @Test
     void test_fluffy_position() {
         int start_pos = 4;
@@ -96,5 +96,5 @@ public class NewTest {
         assertFalse(R1.isAlive());
         assertFalse(R2.isAlive());
         assertFalse(R3.isAlive());
-    }
+    }*/
 }

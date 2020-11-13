@@ -18,7 +18,6 @@ public class GamePanel extends JPanel implements Observer{
 	public GamePanel(int width, int height){
 		super();
 		panels = new CellPanel[width][height];
-
 		for(int x = 0;x < width;x++){
 			for(int y = 0;y < height;y++){
 				panels[x][y] = new CellPanel(x, y);
@@ -27,7 +26,6 @@ public class GamePanel extends JPanel implements Observer{
 		}
 		setLayout(new GridLayout(width, height));
 		State.register(this);
-		//addMouseListener(this);
 		log("GamePanel created\n");
 	}
 
@@ -42,6 +40,7 @@ public class GamePanel extends JPanel implements Observer{
 
 	@Override
 	public void update(){
+		// TODO use entities list instead of grid
 		Entity[][] grid = State.getGrid();
 		List<Entity> entities = State.getEntities();
 		for(int x = 0;x < panels.length;x++){
@@ -57,41 +56,4 @@ public class GamePanel extends JPanel implements Observer{
 		}
 		repaint();
 	}
-	/*	
-	@Override
-	public void mouseClicked(MouseEvent event){
-		int x = event.getX() / CellPanel.width;
-		int y = event.getY() / CellPanel.height;
-		int button = event.getButton();
-		log(String.format("@GamePanel Mouse Event @ panel (%d, %d) - ID: %d\n", x, y, button));
-		
-		if(button == MouseEvent.BUTTON1) { // left click
-			Controller.showMenu1(x, y, panels[y][x]);
-		}
-		else if(button == MouseEvent.BUTTON3) { // right click
-			Controller.showMenu2(x, y, panels[y][x]);
-		}
-		// panels[y][x].setBackground(new Color(100,100,100));
-	}
-	
-	@Override
-	public void mouseEntered(MouseEvent arg0){
-		
-	}
-	
-	@Override
-	public void mouseExited(MouseEvent arg0){
-		
-	}
-	
-	@Override
-	public void mousePressed(MouseEvent arg0){
-		
-	}
-	
-	@Override
-	public void mouseReleased(MouseEvent arg0){
-		
-	}
-	*/
 }

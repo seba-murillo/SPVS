@@ -19,24 +19,24 @@ public class Bear extends Entity {
 	}
 
 	@Override
-	public int move(){
-		if(!alive) return 0;
+	public void move(){
+		if(!alive) return;// 0;
 		//TODO khé ???
 		move_cooldown -= 1;
-		if(move_cooldown > 0) return 0;
+		if(move_cooldown > 0) return;// 0;
 		// move
 		food--;
 		if(food < 0){
 			this.kill("starvation");
-			return 0;
+			return;// 0;
 		}
-		if(check_surroundings()) return 0;
+		if(check_surroundings()) return;// 0;
 		int[] dest = State.getCurrent().getClosestEntityType(Entity.TYPE_PLANT, getX(), getY());
-		if(dest[0] == -1 && dest[1] == -1) return (new Random().nextInt(9));
+		if(dest[0] == -1 && dest[1] == -1) return;//(new Random().nextInt(9));
 		int dir = Entity.pathfind(getX(), getY(), dest[0], dest[1]);
 		move_cooldown += move_rest_needed;
-		if(check_surroundings()) return 0;
-		return getRandom(dir);
+		if(check_surroundings()) return;// 0;
+		return ;// 0;getRandom(dir);
 	}
 
 	private static int getRandom(int dir){

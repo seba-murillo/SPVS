@@ -1,4 +1,6 @@
 package view;
+
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -8,6 +10,9 @@ import javax.swing.*;
 
 
 public class Screen{
+
+	public static final Color COLOR_BACKGROUND = new Color(15, 90, 0);
+	public static final Color COLOR_BORDER = Color.BLACK;
 
 	private static JFrame frame = null;
 	private static JPanel board;
@@ -51,23 +56,20 @@ public class Screen{
 		LocalTime time = LocalTime.now();
 		String filename = String.format("screenshot_%d-%d-%d.png", time.getHour(), time.getMinute(), time.getSecond());
 		BufferedImage image = new BufferedImage(frame.getWidth(), frame.getHeight(), BufferedImage.TYPE_INT_RGB);
-		//Container container = frame.getContentPane();
-		//container.paint(image.getGraphics());
 		frame.paintAll(image.getGraphics());
 		try{
 			ImageIO.write(image, "png", new File(filename));
-		}
-		catch(IOException e){
+		}catch(IOException e){
 			e.printStackTrace();
 		}
 	}
 
-	public static void showEndScreen(int duration) {
+	public static void showEndScreen(int duration){
 		JPanel message = new JPanel();
 		message.add(new JLabel("Simulacion terminada (" + duration + " turnos)"));
 		JOptionPane.showMessageDialog(null, message, "Simulador de Vida Salvaje", JOptionPane.INFORMATION_MESSAGE);
 	}
-	
+
 	public static void updateTitle(int id){
 		frame.setTitle(String.format("SPVS - [%d]", id));
 	}
