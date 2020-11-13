@@ -1,7 +1,6 @@
 package model;
 
 import java.io.File;
-import controller.Controller;
 
 
 public class Fluffy extends Entity{

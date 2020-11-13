@@ -1,8 +1,4 @@
 package view;
-
-import model.Observer;
-import model.State;
-
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -13,12 +9,9 @@ import javax.swing.*;
 
 public class Screen{
 
-	public static boolean showGrid = true;
-
 	private static JFrame frame = null;
-
-	private static JPanel	board;
-	private static JPanel	control;
+	private static JPanel board;
+	private static JPanel control;
 
 	private Screen(int width, int height){
 		frame = new JFrame("Simulador de Vida Salvaje");

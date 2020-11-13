@@ -5,13 +5,11 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import controller.Controller;
 import view.Screen;
 
 
 public class Game{
 
-	public static final boolean DEBUG = false;
 	private static final int DEFAULT_DURATION = 1000;
 	private static final int MIN_WIDTH = 10;
 	private static final int MAX_WIDTH = 50;
@@ -60,12 +58,11 @@ public class Game{
 	}
 
 	private Game(int width, int height, int duration){
-		Controller.MAX_Y = width;
-		Controller.MAX_X = height;
 		State.initialize(width, height, duration);
 		Screen.create(width, height);
 	}
 	
+	@SuppressWarnings("InstantiationOfUtilityClass")
 	public static Game start(int width, int height, int duration) {
 		if(current != null) return current;
 		current = new Game(width, height, duration);

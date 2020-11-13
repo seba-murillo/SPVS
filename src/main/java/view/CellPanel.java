@@ -6,9 +6,8 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
-import controller.Controller;
+import javax.swing.*;
+import model.*;
 
 
 @SuppressWarnings("serial")
@@ -65,9 +64,27 @@ public class CellPanel extends JPanel implements MouseListener{
 		else if(button == MouseEvent.BUTTON3){ // right click
 		*/
 		if(button == MouseEvent.BUTTON3){ // right click
-			Controller.showMenu(x, y, this);
+			showMenu(x, y);
 		}
 		// panels[y][x].setBackground(new Color(100,100,100));
+	}
+
+	private void showMenu(int x, int y){ // right click
+		State state = State.getCurrent();
+		Entity entity = state.getEntityAt(x, y);
+		JPopupMenu add_menu = new JPopupMenu("menu");
+		if(entity == null){
+			add_menu.add("add plant").addActionListener(e-> state.addEntity(new Plant(), x, y));
+			add_menu.add("add rabbit").addActionListener(e-> state.addEntity(new Rabbit(), x, y));
+			add_menu.add("add wolf").addActionListener(e-> state.addEntity(new Wolf(), x, y));
+			add_menu.add("add bear").addActionListener(e-> state.addEntity(new Bear(), x, y));
+			add_menu.add("add stone").addActionListener(e-> state.addEntity(new Stone(), x, y));
+			add_menu.add("add tree").addActionListener(e-> state.addEntity(new Tree(), x, y));
+		}
+		else{
+			add_menu.add("remove").addActionListener(e-> state.removeEntityAt(x, y));
+		}
+		add_menu.show(this, 20, 10);
 	}
 
 	@Override

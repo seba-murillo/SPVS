@@ -157,6 +157,7 @@ public abstract class Entity implements Cloneable{
 		} catch (CloneNotSupportedException e) {
 			e.printStackTrace();
 		}
+		if(copy == null) System.out.println("HOLY FUK!!!!");
 		return copy;
 	}
 }

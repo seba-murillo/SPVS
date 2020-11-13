@@ -2,10 +2,7 @@ package model;
 
 import view.Screen;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.TreeMap;
+import java.util.*;
 
 
 public class State implements Cloneable {
@@ -170,7 +167,7 @@ public class State implements Cloneable {
         return String.format("State [%d]", ID);
     }
 
-    private static void log(String format, Object ... args){
+    private static void log(String format, Object... args) {
         System.out.printf((format) + "%n", args);
     }
     /*
@@ -184,14 +181,18 @@ public class State implements Cloneable {
             Screen.showEndScreen(initialDuration);
             return;
         }
+        //log("- ticking state %d", ID);
         save();
         ID++;
-        for(int e = 0; e < entities.size();e++){// clone entities
-            // Entity entity = entities.get(e).copy();
-            // entities.remove(e);
-            entities.add(e, entities.get(e).copy());
+        //log("- clonning entities");
+        for (int e = 0; e < entities.size(); e++) {// clone entities
+            Entity OLD = entities.get(e);
+            Entity NEW = OLD.copy();
+            entities.remove(OLD);
+            entities.add(e, NEW);
         }
-        for (Entity entity : entities) {            
+        //log("- moving new entities");
+        for (Entity entity : entities) {
             for (int attempt = 0; attempt < MAX_MOVE_ATTEMPT; attempt++) {
                 if (setEntityPos(entity, entity.move())) {
                     break; // continue outer
@@ -202,18 +203,23 @@ public class State implements Cloneable {
     }
 
     private void save() {
-        try {            
+        if (ID == 3) printall();
+        //log("- saving state %d", ID);
+        try {
             states.put(ID, (State) this.clone());
         } catch (CloneNotSupportedException e) {
             log("ERROR @ State.save() : failed clonning");
         }
+        //log("- state saved");
     }
 
-    private static State load(int state) {
+    private static State load(int stateID) {
+        if (stateID < 0) stateID = 0;
         log("- loading state %d of %d", ID, states.size());
-        if (state < 0) state = 0;
-        ID = state;
-        return states.get(ID);
+        ID = stateID;
+        State state = states.get(ID);
+        state.print();
+        return state;
     }
 /*
     public static void loadState(int ID) {
@@ -248,7 +254,7 @@ public class State implements Cloneable {
     public static void updateObservers() {
         Screen.updateTitle(ID);
         for (Observer obs : observers)
-            obs.update();        
+            obs.update();
     }
 
     public static void register(Observer observer) {
@@ -258,6 +264,42 @@ public class State implements Cloneable {
     @SuppressWarnings("unused")
     public static void unregister(Observer observer) {
         observers.remove(observer);
+    }
+
+    /*
+    ===========================================================
+    =   test & debug functions
+    ===========================================================
+    */
+
+    public void print() {
+        log("> %s:", this.toString());
+        for (Entity entity : entities) {
+            log("    %s [%d]: (%d,%d)", entity.toString(), entity.hashCode(), entity.getX(), entity.getX());
+        }
+        log("\n");
+    }
+
+    public static void printall() {
+        log("PRINTING ALL");
+        states.forEach((key, value) -> value.print());
+        log("\n");
+        log("PRINTED ALL");
+    }
+
+    public static void set(State newstate) {
+        current = newstate;
+        updateObservers();
+    }
+
+    public State copy() {
+        try {
+            return (State) current.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        log("FK FK FK");
+        return null;
     }
 
 }

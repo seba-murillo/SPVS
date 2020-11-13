@@ -1,5 +1,4 @@
 import org.junit.jupiter.api.Test;
-import controller.Controller;
 import model.Bear;
 import model.Game;
 import model.Plant;

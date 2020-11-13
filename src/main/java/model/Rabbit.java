@@ -2,8 +2,6 @@ package model;
 
 import java.io.File;
 import java.util.Random;
-import controller.Controller;
-
 
 public class Rabbit extends Entity{
 
