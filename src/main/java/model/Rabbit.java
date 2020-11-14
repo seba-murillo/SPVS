@@ -26,20 +26,23 @@ public class Rabbit extends Entity{
 	 *       +
 	 */
 	@Override
-	public void move(){
-		if(!alive) return;
-		if(--move_cooldown > 0) return;
-		if(--food < 0){
+	public int move(){
+		if(!alive) return 0;
+		move_cooldown -= 1;
+		if(move_cooldown > 0) return 0;
+		// move
+		food--;
+		if(food < 0){
 			this.kill("starvation");
-			return;
+			return 0;
 		}
-		Entity[][] nearby = State.getCurrent().getSurroundings(getX(), getY());
-		Entity[][] around = getAvailableSpaces(nearby);
-		int[] dir = findFood(nearby, Entity.TYPE_PLANT);
-		int[] pos = findpath(around, x, y, dir[0], dir[1]);
-		setP(x + pos[0], y +pos[1]);
-		//if(check_surroundings()) return;
-		return;//getRandom(dir);
+		if(check_surroundings()) return 0;
+		int[] dest = State.getCurrent().getClosestEntityType(Entity.TYPE_PLANT, getX(), getY());
+		if(dest[0] == -1 && dest[1] == -1) return (new Random().nextInt(9));
+		int dir = Entity.pathfind(getX(), getY(), dest[0], dest[1]);
+		move_cooldown += move_rest_needed;
+		if(check_surroundings()) return 0;
+		return getRandom(dir);
 	}
 
 	private boolean check_surroundings(){
@@ -50,7 +53,7 @@ public class Rabbit extends Entity{
 				if(!surr[x][y].isAlive()) continue;
 				if(surr[x][y].getType() == Entity.TYPE_PLANT){
 					surr[x][y].kill(this.toString());
-					addFood(FOOD_GAIN);
+					this.food += FOOD_GAIN;
 					return true;
 				}
 			}
@@ -62,17 +65,5 @@ public class Rabbit extends Entity{
 		int result = new Random().nextInt(3) + (dir - 1); // dir +/- 1
 		result = (result == 0) ? 8 : result;
 		return result;
-	}
-
-	@Override
-	public void kill(String reason){
-		if("starvation".equals(reason)) log(this.toString() + " died from starvation");
-		else
-			log(this.toString() + " was eaten by " + reason);
-		food = -1;
-		alive = false;
-		type = Entity.INEX;
-		setName(name + " (dead)");
-		setIcon(Entity.FILE_DEAD);
 	}
 }

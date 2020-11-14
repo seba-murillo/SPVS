@@ -5,6 +5,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
 import view.Screen;
 
 
@@ -17,6 +18,13 @@ public class Game{
 	private static final int MAX_HEIGHT = 30;
 
 	private static Game current = null;
+
+	@SuppressWarnings("InstantiationOfUtilityClass")
+	public static Game start(int width, int height, int duration){
+		if(current != null) return current;
+		current = new Game(width, height, duration);
+		return current;
+	}
 
 	public static void main(String[] args){
 		JTextField field_width = new JTextField(3);
@@ -39,8 +47,7 @@ public class Game{
 				height = Integer.parseInt(field_height.getText());
 				duration = Integer.parseInt(field_duration.getText());
 				break;
-			}
-			catch(Exception e){
+			}catch(Exception e){
 				JOptionPane.showMessageDialog(null, input, "Simulador de Vida Salvaje", JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
@@ -60,12 +67,5 @@ public class Game{
 	private Game(int width, int height, int duration){
 		State.initialize(width, height, duration);
 		Screen.create(width, height);
-	}
-	
-	@SuppressWarnings("InstantiationOfUtilityClass")
-	public static Game start(int width, int height, int duration) {
-		if(current != null) return current;
-		current = new Game(width, height, duration);
-		return current;
 	}
 }

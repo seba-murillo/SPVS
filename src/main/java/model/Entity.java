@@ -8,9 +8,7 @@ import javax.imageio.ImageIO;
 
 
 public abstract class Entity implements Cloneable{
-	//TODO ver si corresponde acoplar la lóigica de imágenes en Entidad
 	public static final String RESOURCE = "resources/images/";
-	//TODO debería ser función de view lo de manejo de imágenes
 	public static final File FILE_DEAD = new File(Entity.RESOURCE + "skull.png");
 
 	public static final int INEX = -1;
@@ -33,13 +31,12 @@ public abstract class Entity implements Cloneable{
 	protected boolean alive = true;
 	protected BufferedImage icon;
 
-	public abstract void move();
+	public abstract int move();
 
 	public boolean isAlive(){
 		return alive;
 	}
 
-	@SuppressWarnings({})
 	public void addFood(int food){
 		this.food += food;
 	}
@@ -123,55 +120,11 @@ public abstract class Entity implements Cloneable{
 		return (Entity) this.clone();
 	}
 
-	public static void log(String format, Object... args){
-		System.out.println(String.format(format, args));
-	}
-
-
-	protected Entity[][] getAvailableSpaces(Entity[][] nearby){
-		Entity[][] around = new Entity[3][3];
-		int offset = State.SURROUNDING_RADIUS / 2 + 1;
-		for(int i = 0;i < 3;i++){
-			for(int j = 0;j < 3;j++){
-				around[i][j] = nearby[i + offset][j + offset];
-			}
-		}
-		around[1][1] = null;
-		return around;
-	}
-
-	protected int[] findFood(Entity[][] nearby, int foodtype){
-		int max = 2 * State.SURROUNDING_RADIUS; // 0 -> 6
-		for(int i = 0;i < max;i++){
-			for(int j = 0;j < max;j++){
-				if(nearby[i][j].getType() == foodtype){
-					return new int[]{nearby[i][j].getX(), nearby[i][j].getY()};
-				}
-			}
-		}
-		return new int[]{-1, -1};
-
-	}
-
-	// investigate surroundings
-	// if food -> if possible -> move towards randomly
-	// move randomly
-	protected int[] findpath(Entity[][] around, int from_x, int from_y, int to_x, int to_y){
-		double chance = Math.random();
-		if(to_x < 0 || to_y < 0){
-			getRandom(-1, 1);
-			return new int[]{0, 0};// do not move
-		}
+	public static int pathfind(int from_x, int from_y, int to_x, int to_y){
+		int dir;
 		if(to_x > from_x){ // go right
-			if(to_y > from_y){// go down
-				if(chance < 0.25){
-
-				}else if(chance > 0.75){
-
-				}else{
-					return new int[]{1, 1};
-				}
-			}else if(to_y < from_y) dir = 3; // go up
+			if(to_y > from_y) dir = 5; // go down
+			else if(to_y < from_y) dir = 3; // go up
 			else
 				dir = 4;
 		}else if(to_x < from_x){ // go left
@@ -187,12 +140,8 @@ public abstract class Entity implements Cloneable{
 		}
 		//log("@pathfind dir: " + dir);
 		//dir = ((int) (byte) dir) + 1;
-
-
-		move_cooldown += move_rest_needed;
+		return dir;
 	}
 
-	private int getRandom(int min, int max){
-		return new Random().nextInt(max + 1 - min) + min;
-	}
+
 }

@@ -1,14 +1,12 @@
 package model;
 
-import utils.SPVSLog;
+import utils.SPVSutils;
 import view.Screen;
 
 import java.util.*;
 
 
 public class State implements Cloneable{
-	public final static int SURROUNDING_RADIUS = 3;
-
 	private static final TreeMap<Integer, State> states = new TreeMap<>();
 	private static final HashSet<Observer> observers = new HashSet<>();
 	private static int ID = 0;
@@ -49,35 +47,99 @@ public class State implements Cloneable{
 	}
 
 	public boolean addEntity(Entity entity, int x, int y){
-		updateGrid();
-		if(x < 0 || x >= State.width) return false;
-		if(y < 0 || y >= State.height) return false;
-		if(grid[x][y] != null) return (grid[x][y] == entity);
-		grid[x][y] = entity;
+		//log("adding " + entity + " to pos (" + x + ", " + y + ")");
+		if(!setEntityPos(entity, x, y)) return false;
 		entities.add(entity);
 		updateObservers();
 		return true;
 	}
-	// 15x15
-	public Entity[][] getSurroundings(int x, int y){ // (x,y) = (9,9)
-		Entity[][] nearby = new Entity[2 * SURROUNDING_RADIUS + 1][2 * SURROUNDING_RADIUS + 1];
-		//int min_x = (x - SURROUNDING_RADIUS < 0) ? 0 : x - SURROUNDING_RADIUS;
-		//int min_y = (y - SURROUNDING_RADIUS < 0) ? 0 : y - SURROUNDING_RADIUS;
-		int min_x = Math.max(x - SURROUNDING_RADIUS, 0);
-		int min_y = Math.max(y - SURROUNDING_RADIUS, 0);
-		int max_x = (x + SURROUNDING_RADIUS > width) ? width : x + SURROUNDING_RADIUS + 1;
-		int max_y = (y + SURROUNDING_RADIUS > height) ? height : y + SURROUNDING_RADIUS + 1;
-		for(int i = 0;i < 3;i++){
-			for(int j = 0;j < 3;j++){
-				nearby[i][j] = new Void();
+
+	private boolean setEntityPos(Entity entity, int x, int y){
+		if(x < 0 || x >= width) return false;
+		if(y < 0 || y >= height) return false;
+		if(grid[x][y] != null){
+			if(grid[x][y] == entity) return true;
+			//log("@State - cannot place [" + entity + "] at (" + x + ", " + y + "): space already in use by " + grid[x][y].toString());
+			return false;
+		}
+		int prev_x = entity.getX();
+		int prev_y = entity.getY();
+		// TODO FIX invert grid coords
+		if(prev_x != Entity.INEX && prev_y != Entity.INEX) grid[prev_x][prev_y] = null; // remove from previous pos
+		grid[x][y] = entity;
+		entity.setP(x, y);
+		return true;
+	}
+
+	private boolean setEntityPos(Entity entity, int dir){
+		switch(dir){
+			case 0:{
+				return true;
+			}
+			case 1: // 1 = 9
+			case 9:{
+				return (setEntityPos(entity, entity.getX() - 1, entity.getY() - 1));
+			}
+			case 2:{
+				return (setEntityPos(entity, entity.getX() + 0, entity.getY() - 1));
+			}
+			case 3:{
+				return (setEntityPos(entity, entity.getX() + 1, entity.getY() - 1));
+			}
+			case 4:{
+				return (setEntityPos(entity, entity.getX() + 1, entity.getY() + 0));
+			}
+			case 5:{
+				return (setEntityPos(entity, entity.getX() + 1, entity.getY() + 1));
+			}
+			case 6:{
+				return (setEntityPos(entity, entity.getX() + 0, entity.getY() + 1));
+			}
+			case 7:{
+				return (setEntityPos(entity, entity.getX() - 1, entity.getY() + 1));
+			}
+			case 8:{
+				return (setEntityPos(entity, entity.getX() - 1, entity.getY() + 0));
+			}
+			default:{
+				return false;
 			}
 		}
-		for(int i = min_x;i < max_x;i++){ // 6 -> 12
-			for(int j = min_y;j < max_y;j++){ // 6 -> 12
-				nearby[i - min_x][j - min_y] = grid[i][j]; // 0->6
+	}
+
+	public int[] getClosestEntityType(int type, int x, int y){
+		int pos[] = {-1, -1};
+		double dist;
+		double min_dist = 999;
+		for(Entity ent : entities){
+			if(ent.getType() != type) continue;
+			if(!ent.isAlive()) continue;
+			dist = Math.sqrt(Math.pow(ent.getX() - x, 2) + Math.pow(ent.getY() - y, 2));
+			if(dist < min_dist){
+				min_dist = dist;
+				pos[0] = ent.getX();
+				pos[1] = ent.getY();
 			}
 		}
-		return nearby;
+		return pos;
+	}
+
+	public Entity[][] getSurroundings(int pos_x, int pos_y){
+		//log("@getSurroundings(" + pos_x + ", " + pos_y + ")");
+		Entity[][] surroundings = new Entity[3][3];
+		int start_x = pos_x - 1; // 2
+		int start_y = pos_y - 1; // 2
+		for(int x = start_x;x <= (pos_x + 1);x++){ // 2 -> 4
+			if(x < 0 || x >= width) continue;
+			for(int y = start_y;y <= (pos_y + 1);y++){// 2 -> 4
+				if(y < 0 || y >= height) continue;
+				if(pos_x == x && pos_y == y) continue;
+				if(x - start_x < 0 || x - start_x >= width) continue;
+				if(y - start_y < 0 || y - start_y >= height) continue;
+				surroundings[x - start_x][y - start_y] = grid[x][y];
+			}
+		}
+		return surroundings;
 	}
 
 	public static State getCurrent(){
@@ -105,56 +167,47 @@ public class State implements Cloneable{
 			Screen.showEndScreen(initialDuration);
 			return;
 		}
-		//Global.log("- ticking state %d", ID);
+		SPVSutils.log(this + ": ticking state %d", ID);
 		try{
 			save();
 		}catch(CloneNotSupportedException e){
 			e.printStackTrace();
 		}
 		ID++;
-		updateGrid();
-		//Global.log("- moving new entities");
+		SPVSutils.log(this + ": moving new entities");
 		for(Entity entity : entities){
-			entity.move();
+			SPVSutils.log(entity + ": moving");
+			for(int attempt = 0;attempt < 15;attempt++){
+				if(setEntityPos(entity, entity.move())){
+					break; // continue outer
+				}
+			}
 		}
 		updateObservers();
 	}
 
-	private void updateGrid(){
-		for(int x = 0; x < width;x++){
-			for(int y = 0;y < height;y++){
-				grid[x][y] = null;
-			}
-		}
-		for(Entity entity : entities){
-			grid[entity.getX()][entity.getY()] = entity;
-		}
-	}
-
 	private void save() throws CloneNotSupportedException{
-		//Global.log("- saving state %d", ID);
+		SPVSutils.log(this + ": saving");
 		states.put(ID, (State) this.clone());
-		List<Entity> newlist = new ArrayList<>(entities);
+		//List<Entity> newlist = new ArrayList<>(entities);
+		List<Entity> newlist = new ArrayList<>();
 		for(Entity entity : entities) newlist.add(entity.copy());
 		entities = newlist;
+		updateGrid();
 	}
 
 	private static State load(int stateID){
 		if(stateID < 0) stateID = 0;
-		SPVSLog.log("- loading state %d of %d", ID, states.size());
+		SPVSutils.log("- loading state %d of %d", ID, states.size());
 		ID = stateID;
 		State state = states.get(ID);
 		state.print();
 		return state;
 	}
-/*
-    public static void loadState(int ID) {
-        current = State.load(ID);
-        updateObservers();
-    }*/
 
 	public static void prev(){
 		current = State.load(ID - 1);
+		SPVSutils.log(current + ": saving");
 		updateObservers();
 	}
 
@@ -174,16 +227,31 @@ public class State implements Cloneable{
 
 	/*
 	===========================================================
-	=   subject interface methods
+	=   update methods
 	===========================================================
 	*/
+
+	private void updateGrid(){
+		for(int x = 0;x < width;x++){
+			for(int y = 0;y < height;y++){
+				grid[x][y] = null;
+			}
+		}
+		for(Entity entity : entities){
+			grid[entity.getX()][entity.getY()] = entity;
+		}
+	}
+
 	public static void updateObservers(){
+		SPVSutils.log(current + ": updating observer");
 		Screen.updateTitle(ID);
+		current.updateGrid();
 		for(Observer obs : observers)
 			obs.update();
 	}
 
 	public static void register(Observer observer){
+		SPVSutils.log("registered");
 		observers.add(observer);
 	}
 
@@ -199,33 +267,10 @@ public class State implements Cloneable{
     */
 
 	public void print(){
-		SPVSLog.log("> %s:", this.toString());
+		SPVSutils.log("> %s:", this.toString());
 		for(Entity entity : entities){
-			SPVSLog.log("    %s [%d]: (%d,%d)", entity.toString(), entity.hashCode(), entity.getX(), entity.getX());
+			SPVSutils.log("    %s [%d]: (%d,%d)", entity.toString(), entity.hashCode(), entity.getX(), entity.getX());
 		}
-		SPVSLog.log("\n");
+		SPVSutils.log("\n");
 	}
-
-	public static void printall(){
-		SPVSLog.log("PRINTING ALL");
-		states.forEach((key, value) -> value.print());
-		SPVSLog.log("\n");
-		SPVSLog.log("PRINTED ALL");
-	}
-
-	public static void set(State newstate){
-		current = newstate;
-		updateObservers();
-	}
-
-	public State copy(){
-		try{
-			return (State) current.clone();
-		}catch(CloneNotSupportedException e){
-			e.printStackTrace();
-		}
-		SPVSLog.log("FK FK FK");
-		return null;
-	}
-
 }

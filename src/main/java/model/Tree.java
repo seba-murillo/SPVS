@@ -19,7 +19,8 @@ public class Tree extends Entity{
 	}
 
 	@Override
-	public void move(){
+	public int move(){
+		return 0;
 	}
 
 	@Override
