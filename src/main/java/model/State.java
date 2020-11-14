@@ -9,6 +9,7 @@ import java.util.*;
 public class State implements Cloneable{
 	private static final TreeMap<Integer, State> states = new TreeMap<>();
 	private static final HashSet<Observer> observers = new HashSet<>();
+
 	private static int ID = 0;
 	private static State current = null;
 	private static int width = 0;
@@ -24,6 +25,7 @@ public class State implements Cloneable{
 	}
 
 	public static void initialize(int width, int height, int duration){
+		ID = 0;
 		initialDuration = duration;
 		State.width = width;
 		State.height = height;
@@ -188,11 +190,13 @@ public class State implements Cloneable{
 
 	private void save() throws CloneNotSupportedException{
 		SPVSutils.log(this + ": saving");
-		states.put(ID, (State) this.clone());
 		//List<Entity> newlist = new ArrayList<>(entities);
+		List<Entity> tmp = entities;
 		List<Entity> newlist = new ArrayList<>();
 		for(Entity entity : entities) newlist.add(entity.copy());
 		entities = newlist;
+		states.put(ID, (State) this.clone());
+		entities = tmp;
 		updateGrid();
 	}
 
@@ -265,6 +269,10 @@ public class State implements Cloneable{
     =   test & debug functions
     ===========================================================
     */
+
+	public void reset(){
+
+	}
 
 	public void print(){
 		SPVSutils.log("> %s:", this.toString());

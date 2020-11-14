@@ -6,14 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestingTest {
 
-    private void delay(){
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
     @Test
     void test_rabbit_vs_plants() {
         Game.start(10,10,100);
@@ -30,8 +22,6 @@ public class TestingTest {
         state.addEntity(P4, 0, 9);
         for (int i = 0; i < 50; i++) {
             State.next();
-            State.updateObservers();
-            delay();
         }
         assertTrue(P1.getTimesEaten() > 0);
         assertTrue(P2.getTimesEaten() > 0);

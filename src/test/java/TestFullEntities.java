@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import model.Bear;
 import model.Game;
@@ -7,13 +8,19 @@ import model.State;
 import model.Stone;
 import model.Tree;
 import model.Wolf;
+import view.Screen;
 
 
 class TestFullEntities {
 
+	@BeforeEach
+	void setup(){
+		State.initialize(10, 10, 1000);
+		Screen.create(10, 10);
+	}
+
 	@Test
 	void test(){
-		Game.start(30, 30, 999);
 		State state = State.getCurrent();
 		state.addEntity(new Stone(), 3, 4);
 		state.addEntity(new Stone(), 4, 3);
@@ -112,14 +119,8 @@ class TestFullEntities {
 		state.addEntity(new Wolf(), 29, 15);
 		// bear
 		state.addEntity(new Bear(), 19, 22);
-		for(int i = 0;i < 10;i++){
+		for(int i = 0;i < 20;i++){
 			State.next();
-			try{
-				Thread.sleep(1000);
-			}
-			catch(InterruptedException e){
-				e.printStackTrace();
-			}
 		}
 	}
 }

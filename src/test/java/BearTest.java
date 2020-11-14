@@ -5,12 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import model.Bear;
 
 public class BearTest {
-    /*
-    Bear bear = new Bear("bearUnderTest");
-    @BeforeEach
-    public void setUp(){
-        bear = new Bear("bearUnderTest");
-    }*/
+
     @Test
     public void When_BearHaveBeenEaten_Then_IsDead(){
         //Given
@@ -27,8 +22,8 @@ public class BearTest {
         Bear bear = new Bear("bearUnderTest");
         bear.kill(bear.toString() + " was eaten by " + "Furious Rabbit");
         //When
-        //int result = bear.move();
+        int result = bear.move();
         //Then
-        //Assertions.assertEquals(0,result);
+        Assertions.assertEquals(0,result);
     }
 }

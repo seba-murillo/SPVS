@@ -1,23 +1,22 @@
 import model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import view.Screen;
 
 import java.lang.reflect.Field;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestEntityPlacement {
-/*
-    @BeforeEach //@Before
-    public void resetSingleton() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-        Field instance = Game.class.getDeclaredField("instance");
-        instance.setAccessible(true);
-        instance.set(null, null);
-    }*/
+
+    @BeforeEach
+    void setup(){
+        State.initialize(10, 10, 1000);
+        Screen.create(10, 10);
+    }
 
     @Test
     void test_invalid_placement() {
-        Game.start(10, 10, 999);
         State state = State.getCurrent();
         assertFalse(state.addEntity(new Rabbit(), -5, -9));
         assertFalse(state.addEntity(new Plant(), -5, 2));
@@ -27,7 +26,6 @@ public class TestEntityPlacement {
 
     @Test
     void test_valid_placement() {
-        Game.start(10, 10, 999);
         State state = State.getCurrent();
         assertTrue(state.addEntity(new Plant(), 0, 0));
         assertTrue(state.addEntity(new Tree(), 1, 1));
@@ -39,7 +37,6 @@ public class TestEntityPlacement {
 
     @Test
     void test_duplicate_placement() {
-        Game.start(10, 10, 999);
         State state = State.getCurrent();
         assertTrue(state.addEntity(new Rabbit(), 0, 0));
         assertFalse(state.addEntity(new Rabbit(), 0, 0));
