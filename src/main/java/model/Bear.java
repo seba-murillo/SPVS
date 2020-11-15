@@ -24,8 +24,7 @@ public class Bear extends Entity {
 		move_cooldown -= 1;
 		if(move_cooldown > 0) return 0;
 		// move
-		food--;
-		if(food < 0){
+		if(--food < 0){
 			this.kill("starvation");
 			return 0;
 		}

@@ -179,7 +179,7 @@ public class State implements Cloneable{
 		SPVSutils.log(this + ": moving new entities");
 		for(Entity entity : entities){
 			SPVSutils.log(entity + ": moving");
-			for(int attempt = 0;attempt < 15;attempt++){
+			for(int attempt = 0;attempt < 10;attempt++){
 				if(setEntityPos(entity, entity.move())){
 					break; // continue outer
 				}
@@ -190,7 +190,6 @@ public class State implements Cloneable{
 
 	private void save() throws CloneNotSupportedException{
 		SPVSutils.log(this + ": saving");
-		//List<Entity> newlist = new ArrayList<>(entities);
 		List<Entity> tmp = entities;
 		List<Entity> newlist = new ArrayList<>();
 		for(Entity entity : entities) newlist.add(entity.copy());
@@ -269,10 +268,6 @@ public class State implements Cloneable{
     =   test & debug functions
     ===========================================================
     */
-
-	public void reset(){
-
-	}
 
 	public void print(){
 		SPVSutils.log("> %s:", this.toString());

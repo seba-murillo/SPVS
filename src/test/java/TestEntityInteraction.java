@@ -72,7 +72,6 @@ public class TestEntityInteraction{
 		state.addEntity(new Wolf(), 8, 8);
 		for(int i = 0;i < 40;i++){
 			State.next();
-			delay();
 		}
 		for(int i = 0;i < 4;i++){
 			//SPVSutils.log("R[%d] alive? " + R[i].isAlive(), i);
