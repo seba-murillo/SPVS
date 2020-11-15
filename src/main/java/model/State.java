@@ -66,7 +66,6 @@ public class State implements Cloneable{
 		}
 		int prev_x = entity.getX();
 		int prev_y = entity.getY();
-		// TODO FIX invert grid coords
 		if(prev_x != Entity.INEX && prev_y != Entity.INEX) grid[prev_x][prev_y] = null; // remove from previous pos
 		grid[x][y] = entity;
 		entity.setP(x, y);
@@ -169,16 +168,16 @@ public class State implements Cloneable{
 			Screen.showEndScreen(initialDuration);
 			return;
 		}
-		SPVSutils.log(this + ": ticking state %d", ID);
+		//SPVSutils.log(this + ": ticking state %d", ID);
 		try{
 			save();
 		}catch(CloneNotSupportedException e){
 			e.printStackTrace();
 		}
 		ID++;
-		SPVSutils.log(this + ": moving new entities");
+		//SPVSutils.log(this + ": moving new entities");
 		for(Entity entity : entities){
-			SPVSutils.log(entity + ": moving");
+			//SPVSutils.log(entity + ": moving");
 			for(int attempt = 0;attempt < 10;attempt++){
 				if(setEntityPos(entity, entity.move())){
 					break; // continue outer
@@ -243,7 +242,7 @@ public class State implements Cloneable{
 	}
 
 	public static void updateObservers(){
-		SPVSutils.log(current + ": updating observer");
+		//SPVSutils.log(current + ": updating observer");
 		Screen.updateTitle(ID);
 		current.updateGrid();
 		for(Observer obs : observers)
@@ -251,7 +250,7 @@ public class State implements Cloneable{
 	}
 
 	public static void register(Observer observer){
-		SPVSutils.log("registered");
+		//SPVSutils.log("registered");
 		observers.add(observer);
 	}
 

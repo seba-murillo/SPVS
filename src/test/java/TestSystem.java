@@ -10,17 +10,123 @@ import model.Tree;
 import model.Wolf;
 import view.Screen;
 
+import static org.junit.jupiter.api.Assertions.*;
 
-class TestFullEntities {
+class TestSystem{
 
-	@BeforeEach
-	void setup(){
-		State.initialize(10, 10, 1000);
-		Screen.create(10, 10);
+	void delay(double sec){
+		try{
+			Thread.sleep((long) (1000 * sec));
+		}catch(InterruptedException e){
+			e.printStackTrace();
+		}
 	}
 
 	@Test
-	void test(){
+	void test_longevity(){
+		State.initialize(30, 30, 1001);
+		Screen.create(30, 30);
+		State state = State.getCurrent();
+		state.addEntity(new Stone(), 3, 4);
+		state.addEntity(new Stone(), 4, 3);
+		state.addEntity(new Stone(), 4, 4);
+		state.addEntity(new Stone(), 5, 3);
+		state.addEntity(new Stone(), 5, 4);
+		state.addEntity(new Stone(), 5, 5);
+		state.addEntity(new Stone(), 5, 6);
+		state.addEntity(new Stone(), 6, 5);
+		state.addEntity(new Stone(), 6, 6);
+		// stone B
+		state.addEntity(new Stone(), 12, 17);
+		state.addEntity(new Stone(), 13, 17);
+		state.addEntity(new Stone(), 13, 18);
+		// stone C
+		state.addEntity(new Stone(), 20, 15);
+		state.addEntity(new Stone(), 21, 13);
+		state.addEntity(new Stone(), 21, 14);
+		state.addEntity(new Stone(), 21, 15);
+		state.addEntity(new Stone(), 22, 13);
+		state.addEntity(new Stone(), 22, 14);
+		state.addEntity(new Stone(), 22, 15);
+		state.addEntity(new Stone(), 23, 14);
+		state.addEntity(new Stone(), 23, 15);
+		state.addEntity(new Stone(), 23, 16);
+		state.addEntity(new Stone(), 24, 15);
+		// Tree A
+		state.addEntity(new Tree(), 6, 11);
+		state.addEntity(new Tree(), 7, 10);
+		state.addEntity(new Tree(), 7, 11);
+		state.addEntity(new Tree(), 7, 12);
+		state.addEntity(new Tree(), 8, 11);
+		state.addEntity(new Tree(), 8, 12);
+		state.addEntity(new Tree(), 8, 13);
+		state.addEntity(new Tree(), 9, 13);
+		// Tree B
+		state.addEntity(new Tree(), 11, 15);
+		state.addEntity(new Tree(), 12, 16);
+		state.addEntity(new Tree(), 13, 15);
+		state.addEntity(new Tree(), 13, 16);
+		state.addEntity(new Tree(), 14, 16);
+		state.addEntity(new Tree(), 14, 17);
+		// Tree C
+		state.addEntity(new Tree(), 17, 10);
+		state.addEntity(new Tree(), 17, 11);
+		state.addEntity(new Tree(), 18, 10);
+		state.addEntity(new Tree(), 18, 11);
+		state.addEntity(new Tree(), 19, 11);
+		// Tree D
+		state.addEntity(new Tree(), 21, 5);
+		state.addEntity(new Tree(), 23, 7);
+		state.addEntity(new Tree(), 24, 3);
+		state.addEntity(new Tree(), 25, 3);
+		state.addEntity(new Tree(), 26, 3);
+		state.addEntity(new Tree(), 27, 4);
+		// Plants
+		state.addEntity(new Plant(), 1, 1);
+		state.addEntity(new Plant(), 4, 24);
+		state.addEntity(new Plant(), 4, 28);
+		state.addEntity(new Plant(), 5, 20);
+		state.addEntity(new Plant(), 5, 22);
+		state.addEntity(new Plant(), 7, 17);
+		state.addEntity(new Plant(), 7, 18);
+		state.addEntity(new Plant(), 8, 5);
+		state.addEntity(new Plant(), 8, 6);
+		state.addEntity(new Plant(), 9, 20);
+		state.addEntity(new Plant(), 9, 25);
+		state.addEntity(new Plant(), 13, 4);
+		state.addEntity(new Plant(), 13, 5);
+		state.addEntity(new Plant(), 13, 6);
+		state.addEntity(new Plant(), 13, 7);
+		state.addEntity(new Plant(), 13, 22);
+		state.addEntity(new Plant(), 14, 6);
+		state.addEntity(new Plant(), 15, 4);
+		state.addEntity(new Plant(), 17, 20);
+		state.addEntity(new Plant(), 19, 16);
+		state.addEntity(new Plant(), 21, 10);
+		state.addEntity(new Plant(), 25, 4);
+		state.addEntity(new Plant(), 25, 18);
+		state.addEntity(new Plant(), 25, 5);
+		state.addEntity(new Plant(), 26, 15);
+		state.addEntity(new Plant(), 26, 18);
+		state.addEntity(new Plant(), 28, 5);
+		state.addEntity(new Plant(), 28, 7);
+		state.addEntity(new Plant(), 28, 9);
+		// rabbits
+		Rabbit[] R = new Rabbit[3];
+		for(int i = 0;i < 3;i++) R[i] = new Rabbit();
+		state.addEntity(R[0], 6, 24);
+		state.addEntity(R[1], 13, 10);
+		state.addEntity(R[2], 18, 8);
+		for(int i = 0;i < 1000;i++){
+			State.next();
+		}
+		assertTrue(R[0].isAlive() || R[1].isAlive() || R[2].isAlive());
+	}
+
+	@Test
+	void test_load(){
+		State.initialize(30, 30, 50);
+		Screen.create(30, 30);
 		State state = State.getCurrent();
 		state.addEntity(new Stone(), 3, 4);
 		state.addEntity(new Stone(), 4, 3);
@@ -119,8 +225,9 @@ class TestFullEntities {
 		state.addEntity(new Wolf(), 29, 15);
 		// bear
 		state.addEntity(new Bear(), 19, 22);
-		for(int i = 0;i < 20;i++){
+		for(int i = 0;i < 25;i++){
 			State.next();
+			delay(0.250);
 		}
 	}
 }
