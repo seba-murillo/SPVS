@@ -9,6 +9,10 @@ public class SPVSutils{
 		System.out.println(String.format(format, args));
 	}
 
+	public static void log(){
+		System.out.println();
+	}
+
 	private int getRandom(int min, int max){
 		return new Random().nextInt(max + 1 - min) + min;
 	}

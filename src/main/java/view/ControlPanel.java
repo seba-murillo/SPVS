@@ -24,7 +24,11 @@ public class ControlPanel extends JPanel implements ActionListener{
 
 	public ControlPanel(){
 		super();
+		this.setName("panel_control");
 		setLayout(new FlowLayout());
+		btn_prev.setName("btn_prev");
+		btn_play.setName("btn_play");
+		btn_next.setName("btn_next");
 		add(btn_prev);
 		add(btn_play);
 		add(btn_next);

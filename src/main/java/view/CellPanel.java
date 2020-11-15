@@ -27,6 +27,7 @@ public class CellPanel extends JPanel implements MouseListener{
 
 	public CellPanel(int x, int y){
 		super();
+		this.setName(String.format("cell_%dx%d", x, y));
 		if(show_border) this.setBorder(BorderFactory.createLineBorder(Screen.COLOR_BORDER));
 		setBackground(Screen.COLOR_BACKGROUND);
 		img = null;

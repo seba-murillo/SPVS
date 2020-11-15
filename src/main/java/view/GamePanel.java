@@ -17,6 +17,7 @@ public class GamePanel extends JPanel implements Observer{
 
 	public GamePanel(int width, int height){
 		super();
+		this.setName("panel_game");
 		panels = new CellPanel[width][height];
 		for(int x = 0;x < width;x++){
 			for(int y = 0;y < height;y++){

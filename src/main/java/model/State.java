@@ -189,7 +189,7 @@ public class State implements Cloneable{
 	}
 
 	private void save() throws CloneNotSupportedException{
-		SPVSutils.log(this + ": saving");
+		//SPVSutils.log(this + ": saving");
 		List<Entity> tmp = entities;
 		List<Entity> newlist = new ArrayList<>();
 		for(Entity entity : entities) newlist.add(entity.copy());
@@ -201,16 +201,13 @@ public class State implements Cloneable{
 
 	private static State load(int stateID){
 		if(stateID < 0) stateID = 0;
-		SPVSutils.log("- loading state %d of %d", ID, states.size());
+		//SPVSutils.log("- loading state %d of %d", ID, states.size());
 		ID = stateID;
-		State state = states.get(ID);
-		state.print();
-		return state;
+		return states.get(ID);
 	}
 
 	public static void prev(){
 		current = State.load(ID - 1);
-		SPVSutils.log(current + ": saving");
 		updateObservers();
 	}
 
@@ -261,19 +258,5 @@ public class State implements Cloneable{
 	@SuppressWarnings("unused")
 	public static void unregister(Observer observer){
 		observers.remove(observer);
-	}
-
-    /*
-    ===========================================================
-    =   test & debug functions
-    ===========================================================
-    */
-
-	public void print(){
-		SPVSutils.log("> %s:", this.toString());
-		for(Entity entity : entities){
-			SPVSutils.log("    %s [%d]: (%d,%d)", entity.toString(), entity.hashCode(), entity.getX(), entity.getX());
-		}
-		SPVSutils.log("\n");
 	}
 }

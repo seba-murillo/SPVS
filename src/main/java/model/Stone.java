@@ -22,8 +22,4 @@ public class Stone extends Entity{
 	public int move(){
 		return 0;
 	}
-
-	@Override
-	public void kill(String reason){
-	}
 }

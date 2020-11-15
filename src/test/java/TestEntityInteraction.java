@@ -1,21 +1,11 @@
 import model.*;
-import org.junit.BeforeClass;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import utils.SPVSutils;
 import view.Screen;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestEntityInteraction{
-/*
-	@BeforeClass
-	void start(){
-		SPVSutils.log("CREATING GAME");
-		Game.start(10, 10, 1000);
-	}*/
 
 	@BeforeEach
 	void setup(){
