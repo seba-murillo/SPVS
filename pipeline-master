@@ -9,7 +9,6 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'mvn clean'
                 sh 'mvn install'
             }
         }
@@ -17,7 +16,21 @@ pipeline {
         stage('CheckStyle') {
             steps {
                 //mvn checkstyle:check
-                sh 'mvn -B verify checkstyle:checkstyle'
+                script{
+                    def previous_warnings= sh(returnStdout: true,
+                        script: 'cat target/checkstyle-result.xml | grep error | wc -l').trim().toInteger()
+                    sh(returnStdout: true,
+                        script: 'mvn -B verify checkstyle:checkstyle')
+                    def new_warnings = sh(returnStdout: true,
+                        script: 'cat target/checkstyle-result.xml | grep error | wc -l').trim().toInteger()
+                    echo new_warnings.toString()
+                    echo previous_warnings.toString()
+                    if(new_warnings>previous_warnings)
+                    {
+                        error('Ejecución fallida por aumento de warnings')
+                    }
+                }
+                //sh 'mvn -B verify checkstyle:checkstyle'
             }
         }
         
