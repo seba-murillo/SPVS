@@ -65,8 +65,8 @@ pipeline {
         }
     }
 
-    post {
-        always {
+    //post {
+        //always {
             //junit testResults: '**/target/surefire-reports/TEST-*.xml'
             //junit testResults: '**/target/TEST-*.xml'
             //recordIssues enabledForFailure: true, tools: [mavenConsole(), java(), javaDoc()]
@@ -77,6 +77,6 @@ pipeline {
             //recordIssues enabledForFailure: true, tool: pmdParser(pattern: '**/target/pmd.xml')
             //recordIssues enabledForFailure: true, tools: findbugs(pattern: '**/findbugs*.xml', useRankAsPriority: true)
 
-        }
-    }
+        //}
+    //}
 }
