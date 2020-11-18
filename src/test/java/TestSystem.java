@@ -1,7 +1,5 @@
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import model.Bear;
-import model.Game;
 import model.Plant;
 import model.Rabbit;
 import model.State;
@@ -119,6 +117,9 @@ class TestSystem{
 		state.addEntity(R[2], 18, 8);
 		for(int i = 0;i < 1000;i++){
 			State.next();
+			if(i > 800){
+				delay(1);
+			}
 		}
 		assertTrue(R[0].isAlive() || R[1].isAlive() || R[2].isAlive());
 	}
@@ -227,7 +228,7 @@ class TestSystem{
 		state.addEntity(new Bear(), 19, 22);
 		for(int i = 0;i < 25;i++){
 			State.next();
-			delay(0.250);
+			delay(0.750);
 		}
 	}
 }

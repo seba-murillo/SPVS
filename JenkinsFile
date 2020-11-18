@@ -6,12 +6,6 @@ pipeline {
     }
 
     stages {
-
-        stage('Build') {
-            steps {
-                sh 'mvn install'
-            }
-        }
         
         stage('CheckStyle') {
             steps {
@@ -49,6 +43,12 @@ pipeline {
         stage('Find Bugs') {
             steps {
                 sh 'mvn findbugs:findbugs -X'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'mvn install'
             }
         }
         
