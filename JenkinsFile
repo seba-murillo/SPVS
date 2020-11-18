@@ -39,16 +39,15 @@ pipeline {
                 sh  'mvn pmd:cpd'
             }
         }
-        
-        stage('Find Bugs') {
-            steps {
-                sh 'mvn findbugs:findbugs -X'
-            }
-        }
-
         stage('Build') {
             steps {
                 sh 'mvn install'
+            }
+        }
+
+        stage('Find Bugs') {
+            steps {
+                sh 'mvn findbugs:findbugs -X'
             }
         }
         
